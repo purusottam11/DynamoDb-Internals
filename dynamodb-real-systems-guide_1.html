@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DynamoDB with Real Systems — Simple Guide</title>
+<style>
+  :root{
+    --paper:#FBFAF6; --ink:#1C2230; --muted:#5B6478; --line:#E3E0D6;
+    --blue:#2F55D4; --blue-soft:#EAF0FF;
+    --amber:#D97B0D; --amber-soft:#FFF3E0;
+    --green:#1E8E5A; --green-soft:#E4F5EC;
+    --red:#C23B3B; --red-soft:#FBE9E9;
+    --purple:#7048B6; --purple-soft:#F1EAFB;
+    --code:#F2F1EA;
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.7;font-size:17px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;background:rgba(251,250,246,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:50}
+  nav .wrap{display:flex;gap:4px;overflow-x:auto;padding:10px 24px}
+  nav a{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  nav a:hover{background:var(--blue-soft);color:var(--blue)}
+
+  header{padding:60px 0 40px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+  h1{font-size:42px;font-weight:400;line-height:1.15}
+  h1 b{color:var(--blue);font-weight:700}
+  header p{margin-top:16px;color:var(--muted);max-width:640px}
+
+  section{padding:48px 0;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+  h2{font-size:30px;font-weight:700;margin-bottom:18px}
+  h3{font-size:20px;font-weight:700;margin:28px 0 10px}
+  p{margin-bottom:12px}
+  code{font-family:var(--mono);font-size:.85em;background:var(--code);padding:2px 6px;border-radius:4px}
+  pre{background:#20242E;color:#E8EAF0;font-family:var(--mono);font-size:13.5px;line-height:1.6;padding:18px;border-radius:10px;overflow-x:auto;margin:14px 0}
+  pre .c{color:#7C879B} pre .k{color:#F7B267} pre .s{color:#9BD49B}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff}
+  .card h4{font-size:15px;font-family:var(--mono);margin-bottom:8px;color:var(--blue)}
+  .card p{font-size:15px;margin-bottom:6px}
+  .card.amber h4{color:var(--amber)} .card.green h4{color:var(--green)} .card.red h4{color:var(--red)}
+
+  /* real-system boxes */
+  .real{border:2px solid var(--purple);background:var(--purple-soft);border-radius:12px;padding:18px 20px;margin:18px 0}
+  .real .rt{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:8px}
+  .real .rt::before{content:"◆ ";}
+  .real p{font-size:15.5px;margin-bottom:8px}
+  .real p:last-child{margin-bottom:0}
+
+  .note{background:var(--blue-soft);border-left:3px solid var(--blue);padding:12px 16px;border-radius:0 8px 8px 0;font-size:15.5px;margin-bottom:12px}
+  .note.warn{background:var(--amber-soft);border-left-color:var(--amber)}
+  .note.cass{background:var(--green-soft);border-left-color:var(--green)}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+  th{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:2px solid var(--ink)}
+  td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  td:first-child{font-family:var(--mono);font-size:13.5px}
+
+  figure{margin:22px 0;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+  figure svg{display:block;width:100%;height:auto}
+  figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);padding:10px 16px;border-top:1px dashed var(--line)}
+
+  .demo{border:2px solid var(--blue);border-radius:12px;padding:20px;background:#fff;margin:20px 0}
+  .demo label{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  .demo input{font-family:var(--mono);font-size:16px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;width:100%;margin:8px 0 14px;background:var(--code)}
+  .demo input:focus{outline:2px solid var(--blue);border-color:transparent}
+  .parts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:600px){.parts{grid-template-columns:repeat(2,1fr)}}
+  .part{border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center;transition:all .25s}
+  .part .pn{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .part .pr{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+  .part.hit{border-color:var(--amber);background:var(--amber-soft);transform:translateY(-3px)}
+  .part.hit .pn{color:var(--amber);font-weight:700}
+  .hashline{font-family:var(--mono);font-size:13px;background:var(--code);padding:10px 14px;border-radius:8px;margin-bottom:14px}
+  .hashline b{color:var(--amber)}
+
+  .flow{display:flex;align-items:stretch;gap:0;margin:16px 0;flex-wrap:wrap}
+  .step{flex:1;min-width:140px;border:1px solid var(--line);background:#fff;padding:12px;font-size:14px}
+  .step:first-child{border-radius:10px 0 0 10px}
+  .step:last-child{border-radius:0 10px 10px 0}
+  .step .sn{font-family:var(--mono);font-size:11px;color:var(--amber);display:block;margin-bottom:4px}
+
+  footer{padding:40px 0;color:var(--muted);font-size:14px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#story">0 The story</a><a href="#what">1 What</a><a href="#keys">2 Keys</a><a href="#storage">3 Storage</a>
+  <a href="#arch">4 Architecture</a><a href="#scale">5 Scale</a><a href="#index">6 Indexes</a>
+  <a href="#consistency">7 HA</a><a href="#advanced">8 Advanced</a><a href="#companies">9 Who uses it</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow">Simple guide · With real systems</div>
+  <h1><b>DynamoDB</b> explained with real high-scale systems</h1>
+  <p>Simple words. Short sentences. Every concept is explained twice: once in theory, once with a real system that uses it at massive scale. Running example: <b>a food delivery app</b> (think Swiggy / Zomato / DoorDash) that must handle 1 million orders per hour.</p>
+</div></header>
+
+<!-- ============ 0 STORY ============ -->
+<section id="story"><div class="wrap">
+  <div class="kicker">Section 0 · Why DynamoDB exists</div>
+  <h2>The story: Amazon's shopping cart broke</h2>
+  <p>In 2004, Amazon ran its shopping cart on Oracle (a relational database). During the holiday shopping rush, the database could not keep up. The site went down. Amazon lost money every minute.</p>
+  <p>Amazon's engineers realized something important: <b>the shopping cart does not need SQL</b>. It only needs two operations:</p>
+  <div class="grid2">
+    <div class="card"><h4>Put</h4><p>"Save this cart for user 42."</p></div>
+    <div class="card"><h4>Get</h4><p>"Give me the cart of user 42."</p></div>
+  </div>
+  <p>No JOINs. No complex queries. Just key → value. So they built a simple key-value store that could scale by adding more machines. That system became the <b>Dynamo paper (2007)</b>. Later, AWS turned it into a managed service: <b>DynamoDB (2012)</b>.</p>
+  <div class="real">
+    <div class="rt">Real system · Amazon.com itself</div>
+    <p>Today Amazon runs its shopping cart, order history, and huge parts of the retail site on DynamoDB. In 2019 Amazon shut down its last internal Oracle databases.</p>
+    <p><b>Prime Day 2021 numbers (from AWS's own paper):</b> DynamoDB served <b>trillions of API calls</b> and peaked at <b>89.2 million requests per second</b> — with single-digit millisecond latency. No human touched a server. That is the scale this guide explains.</p>
+  </div>
+</div></section>
+
+<!-- ============ 1 WHAT ============ -->
+<section id="what"><div class="wrap">
+  <div class="kicker">Section 1 · Basics</div>
+  <h2>What exactly is DynamoDB?</h2>
+  <p>DynamoDB is a database from AWS. Three words describe it:</p>
+  <div class="grid2">
+    <div class="card"><h4>NoSQL (key-value)</h4><p>You find data by its key. Like a giant HashMap that lives across thousands of machines. No JOINs, no SQL.</p></div>
+    <div class="card amber"><h4>Fully managed</h4><p>You never see a server. You just call an API. AWS handles machines, disks, replication, and failures.</p></div>
+    <div class="card green"><h4>Fast at any size</h4><p>A read takes a few milliseconds. Whether your table has 1 GB or 100 TB — same speed. This is the main promise.</p></div>
+    <div class="card red"><h4>Not for everything</h4><p>Bad for ad-hoc reporting, complex JOINs, "search by anything". You must know your queries before you design the table.</p></div>
+  </div>
+  <div class="real">
+    <div class="rt">Real system · Zoom during COVID</div>
+    <p>In early 2020, Zoom's daily meeting participants jumped from 10 million to 300 million in about three months. A 30x jump. No team can buy and set up servers that fast.</p>
+    <p>Zoom used DynamoDB for user and meeting metadata. Because DynamoDB adds capacity by itself, Zoom scaled 30x <b>without redesigning the database</b>. That is what "fully managed" buys you: the scaling problem becomes AWS's problem.</p>
+  </div>
+  <h3>Basic words</h3>
+  <table>
+    <tr><th>Word</th><th>Simple meaning</th><th>Food app example</th></tr>
+    <tr><td>Table</td><td>A box of items</td><td><code>Orders</code> table</td></tr>
+    <tr><td>Item</td><td>One record (max 400 KB)</td><td>One order</td></tr>
+    <tr><td>Attribute</td><td>One field in the record</td><td><code>totalAmount</code>, <code>status</code></td></tr>
+  </table>
+</div></section>
+
+<!-- ============ 2 KEYS ============ -->
+<section id="keys"><div class="wrap">
+  <div class="kicker">Section 2 · Keys</div>
+  <h2>Partition key and sort key — in plain words</h2>
+  <p>Think of a huge library with thousands of shelves.</p>
+  <div class="grid2">
+    <div class="card amber"><h4>Partition key = which shelf</h4><p>DynamoDB hashes this value to decide <b>WHERE</b> the item is kept. To read, you must give this key exactly.</p></div>
+    <div class="card"><h4>Sort key = order on the shelf</h4><p>All items with the same partition key sit together, sorted by this value. It decides <b>ORDER</b>.</p></div>
+  </div>
+  <p><b>Primary key</b> = the full address of an item. It has two forms:</p>
+  <table>
+    <tr><th>Form</th><th>Made of</th><th>Food app example</th></tr>
+    <tr><td>Simple</td><td>Partition key only</td><td><code>Users</code> table: PK = <code>userId</code>. One user, one item.</td></tr>
+    <tr><td>Composite</td><td>Partition key + sort key</td><td><code>Orders</code> table: PK = <code>customerId</code>, SK = <code>orderTime</code>. One customer, many orders, sorted by time.</td></tr>
+  </table>
+
+  <figure>
+  <svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace">
+    <text x="30" y="34" font-size="15" fill="#1C2230" font-weight="bold">Food app: PK = customerId, SK = orderTime</text>
+    <rect x="30" y="60" width="220" height="64" rx="8" fill="#EAF0FF" stroke="#2F55D4"/>
+    <text x="45" y="86" font-size="13" fill="#2F55D4">PK: "cust#42"</text>
+    <text x="45" y="106" font-size="13" fill="#2F55D4">SK: "2026-07-06T13:00"</text>
+    <path d="M250 92 L320 92" stroke="#5B6478" stroke-width="2" marker-end="url(#ar)"/>
+    <rect x="325" y="66" width="140" height="52" rx="26" fill="#FFF3E0" stroke="#D97B0D"/>
+    <text x="352" y="97" font-size="13" fill="#D97B0D">hash(PK)</text>
+    <path d="M465 92 L535 92" stroke="#5B6478" stroke-width="2" marker-end="url(#ar)"/>
+    <rect x="540" y="40" width="330" height="270" rx="10" fill="#fff" stroke="#1C2230" stroke-width="1.5"/>
+    <text x="560" y="66" font-size="13" fill="#D97B0D" font-weight="bold">Partition P2 (the chosen "shelf")</text>
+    <text x="560" y="92" font-size="12" fill="#5B6478">orders of cust#42, sorted by time:</text>
+    <rect x="560" y="104" width="290" height="30" rx="5" fill="#EAF0FF" stroke="#2F55D4"/>
+    <text x="572" y="124" font-size="12" fill="#1C2230">cust#42 | 07-04 19:10 | Pizza ₹450</text>
+    <rect x="560" y="140" width="290" height="30" rx="5" fill="#EAF0FF" stroke="#2F55D4"/>
+    <text x="572" y="160" font-size="12" fill="#1C2230">cust#42 | 07-05 21:30 | Biryani ₹320</text>
+    <rect x="560" y="176" width="290" height="30" rx="5" fill="#FFF3E0" stroke="#D97B0D" stroke-width="2"/>
+    <text x="572" y="196" font-size="12" fill="#1C2230">cust#42 | 07-06 13:00 | Thali ₹250 ←</text>
+    <text x="560" y="240" font-size="12" fill="#5B6478">other customers on same shelf:</text>
+    <rect x="560" y="250" width="290" height="26" rx="5" fill="#F2F1EA" stroke="#E3E0D6"/>
+    <text x="572" y="268" font-size="12" fill="#5B6478">cust#77 | ...</text>
+    <defs><marker id="ar" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#5B6478"/></marker></defs>
+  </svg>
+  <figcaption>Fig 2.1 — Partition key picks the shelf. Sort key orders items on the shelf.</figcaption>
+  </figure>
+
+  <p>Because same-PK items sit together and sorted, this query is very cheap:</p>
+<pre><span class="c">// "Show my orders from this week, newest first"</span>
+Query:
+  <span class="k">PK</span> = <span class="s">"cust#42"</span> AND <span class="k">SK</span> &gt; <span class="s">"2026-06-30"</span>
+  ScanIndexForward: <span class="k">false</span></pre>
+
+  <div class="real">
+    <div class="rt">Real system · WhatsApp-style chat (the classic pattern)</div>
+    <p>Every big chat system stores messages the same way: <b>PK = chatId, SK = messageTimestamp</b>.</p>
+    <p>Why does this work? When you open a chat, the app asks: "give me the last 50 messages of chat#123". That is ONE query, ONE partition, data already sorted by time. This is why chats open instantly even with billions of messages in the system. Discord and Facebook Messenger use this exact key pattern (on Cassandra/similar stores — same idea).</p>
+  </div>
+  <div class="real">
+    <div class="rt">Real system · Lyft ride tracking</div>
+    <p>Lyft stores GPS points of every active ride in DynamoDB: <b>PK = rideId, SK = timestamp</b>. Millions of location writes per minute. Each write goes to exactly one partition (that ride's shelf). Reading a ride's route = one sorted Query. Simple keys, huge scale.</p>
+  </div>
+</div></section>
+
+<!-- ============ 3 STORAGE ============ -->
+<section id="storage"><div class="wrap">
+  <div class="kicker">Section 3 · Storage</div>
+  <h2>How data is stored inside</h2>
+  <p>DynamoDB cuts your table into pieces called <b>partitions</b>. A partition is the real physical unit. Rules for each partition:</p>
+  <div class="grid2">
+    <div class="card amber"><h4>Hard limits per partition</h4><p>Max ~10 GB data</p><p>Max 3,000 reads/sec (RCU)</p><p>Max 1,000 writes/sec (WCU)</p></div>
+    <div class="card"><h4>Inside one partition</h4><p>Data sits on SSD in a <b>B-tree</b> sorted by (PK, SK). Every write first goes to a <b>write-ahead log (WAL)</b> so nothing is lost in a crash.</p></div>
+  </div>
+  <p>Big table? No problem. A 100 TB table is just ~10,000 small partitions. Your query only ever touches one of them.</p>
+
+  <h3>Try it: type a key, see which partition it goes to</h3>
+  <div class="demo">
+    <label for="pkin">Partition key value</label>
+    <input id="pkin" value="cust#42" autocomplete="off" spellcheck="false">
+    <div class="hashline" id="hashout"></div>
+    <div class="parts" id="parts"></div>
+  </div>
+
+  <div class="real">
+    <div class="rt">Real system · Snapchat</div>
+    <p>Snap moved Snapchat's core storage (including Stories) to DynamoDB. Hundreds of millions of users, each posting and viewing snaps. Each user's data hashes to some partition. Because users are spread evenly across millions of partitions, no single machine ever holds "all of Snapchat" — each machine holds a small, easy slice. Snap also cut median latency significantly after the move.</p>
+  </div>
+  <div class="note cass"><b>You know Cassandra:</b> same partition idea. Different disk structure — Cassandra uses LSM tree (memtable → SSTables → compaction). DynamoDB uses B-tree + WAL. B-tree = no compaction pauses = flatter P99.</div>
+</div></section>
+
+<!-- ============ 4 ARCHITECTURE ============ -->
+<section id="arch"><div class="wrap">
+  <div class="kicker">Section 4 · Internal architecture</div>
+  <h2>What happens when you place an order</h2>
+  <p>Follow one write: customer 42 places an order in our food app. <code>PutItem</code> is called.</p>
+  <div class="flow">
+    <div class="step"><span class="sn">1</span>App sends HTTPS request to DynamoDB</div>
+    <div class="step"><span class="sn">2</span><b>Request Router</b> checks auth, hashes "cust#42", finds which partition owns it</div>
+    <div class="step"><span class="sn">3</span>Sends the write to that partition's <b>leader replica</b></div>
+    <div class="step"><span class="sn">4</span>Leader writes to its log, copies to 2 followers in other data centers (AZs)</div>
+    <div class="step"><span class="sn">5</span>When <b>2 of 3</b> have saved it → "OK" goes back. ~few ms total.</div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace">
+    <defs><marker id="ar2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#5B6478"/></marker></defs>
+    <rect x="370" y="20" width="160" height="44" rx="10" fill="#1C2230"/>
+    <text x="398" y="48" font-size="14" fill="#fff">Food app / SDK</text>
+    <path d="M450 64 L450 100" stroke="#5B6478" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="250" y="105" width="400" height="70" rx="10" fill="#EAF0FF" stroke="#2F55D4" stroke-width="2"/>
+    <text x="300" y="134" font-size="14" fill="#2F55D4" font-weight="bold">Request Router fleet (stateless)</text>
+    <text x="285" y="156" font-size="12" fill="#5B6478">auth · hash(PK) · find partition → forward</text>
+    <path d="M450 175 L450 215" stroke="#5B6478" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="700" y="110" width="170" height="60" rx="10" fill="#F2F1EA" stroke="#5B6478" stroke-dasharray="5 4"/>
+    <text x="716" y="136" font-size="12" fill="#5B6478">Metadata service</text>
+    <text x="716" y="154" font-size="12" fill="#5B6478">(key range → nodes)</text>
+    <path d="M650 140 L700 140" stroke="#5B6478" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="60" y="220" width="780" height="250" rx="12" fill="none" stroke="#E3E0D6" stroke-width="1.5"/>
+    <text x="80" y="248" font-size="13" fill="#5B6478">Replication group of one partition — 3 copies in 3 different data centers</text>
+    <rect x="100" y="270" width="200" height="150" rx="10" fill="#FFF3E0" stroke="#D97B0D" stroke-width="2.5"/>
+    <text x="130" y="298" font-size="13" fill="#D97B0D" font-weight="bold">LEADER · AZ-a</text>
+    <text x="118" y="326" font-size="12" fill="#1C2230">write-ahead log</text>
+    <text x="118" y="348" font-size="12" fill="#1C2230">B-tree on SSD</text>
+    <text x="118" y="376" font-size="12" fill="#5B6478">handles all writes +</text>
+    <text x="118" y="394" font-size="12" fill="#5B6478">strong reads</text>
+    <rect x="350" y="270" width="200" height="150" rx="10" fill="#E4F5EC" stroke="#1E8E5A" stroke-width="2"/>
+    <text x="375" y="298" font-size="13" fill="#1E8E5A" font-weight="bold">FOLLOWER · AZ-b</text>
+    <text x="368" y="326" font-size="12" fill="#1C2230">copied log</text>
+    <text x="368" y="348" font-size="12" fill="#1C2230">B-tree on SSD</text>
+    <text x="368" y="376" font-size="12" fill="#5B6478">serves eventual reads</text>
+    <rect x="600" y="270" width="200" height="150" rx="10" fill="#E4F5EC" stroke="#1E8E5A" stroke-width="2"/>
+    <text x="625" y="298" font-size="13" fill="#1E8E5A" font-weight="bold">FOLLOWER · AZ-c</text>
+    <text x="618" y="326" font-size="12" fill="#1C2230">copied log</text>
+    <text x="618" y="348" font-size="12" fill="#1C2230">B-tree on SSD</text>
+    <text x="618" y="376" font-size="12" fill="#5B6478">serves eventual reads</text>
+    <path d="M300 330 L350 330" stroke="#D97B0D" stroke-width="2" marker-end="url(#ar2)"/>
+    <path d="M550 330 L600 330" stroke="#D97B0D" stroke-width="2" marker-end="url(#ar2)"/>
+    <text x="308" y="320" font-size="11" fill="#D97B0D">Paxos</text>
+    <text x="558" y="320" font-size="11" fill="#D97B0D">Paxos</text>
+  </svg>
+  <figcaption>Fig 4.1 — Router finds the partition. Leader saves + copies. 2 of 3 = success.</figcaption>
+  </figure>
+
+  <div class="real">
+    <div class="rt">Real system · Amazon Prime Day, hop by hop</div>
+    <p>On Prime Day, when 89 million requests hit per second, this exact path runs 89 million times per second. Why does it not fall over?</p>
+    <p><b>1. Routers are stateless.</b> They hold no data. AWS just adds more router machines. Any router can serve any request.</p>
+    <p><b>2. Each write touches only 3 machines</b> (one leader + two followers), no matter how big the table is. There is no "central" database that everything funnels through.</p>
+    <p><b>3. Millions of partitions work in parallel.</b> 89M req/s spread over millions of partitions = a boring, small load per partition. Massive scale is really just massive parallelism.</p>
+  </div>
+</div></section>
+
+<!-- ============ 5 SCALE ============ -->
+<section id="scale"><div class="wrap">
+  <div class="kicker">Section 5 · Scalability</div>
+  <h2>How it scales almost without limit</h2>
+  <p>The secret is simple: <b>nothing is global</b>. Every limit, every leader, every lock is per-partition. To grow, DynamoDB just makes more partitions.</p>
+  <div class="grid2">
+    <div class="card amber"><h4>Partition split</h4><p>A partition gets too big (10 GB) or too hot (traffic)? DynamoDB cuts it into two, moves halves to new machines, updates the routing map. Online, automatic. Capacity for that key range doubles.</p></div>
+    <div class="card green"><h4>Adaptive capacity</h4><p>If one partition suddenly gets more traffic, DynamoDB gives it extra throughput and, if the heat continues, splits it. You do nothing.</p></div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace">
+    <defs><marker id="ar3" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#D97B0D"/></marker></defs>
+    <text x="30" y="34" font-size="15" fill="#1C2230" font-weight="bold">Partition split (automatic, no downtime)</text>
+    <rect x="60" y="80" width="240" height="120" rx="10" fill="#FFF3E0" stroke="#D97B0D" stroke-width="2"/>
+    <text x="90" y="112" font-size="13" fill="#D97B0D" font-weight="bold">P1 — too hot</text>
+    <text x="80" y="140" font-size="12" fill="#1C2230">keys: hash 0000–7FFF</text>
+    <text x="80" y="162" font-size="12" fill="#C23B3B">11 GB · 1,400 writes/s ⚠</text>
+    <path d="M300 140 L400 100" stroke="#D97B0D" stroke-width="2" marker-end="url(#ar3)"/>
+    <path d="M300 140 L400 190" stroke="#D97B0D" stroke-width="2" marker-end="url(#ar3)"/>
+    <rect x="405" y="60" width="220" height="80" rx="10" fill="#fff" stroke="#1E8E5A" stroke-width="2"/>
+    <text x="425" y="90" font-size="13" fill="#1E8E5A" font-weight="bold">P1a  0000–3FFF</text>
+    <text x="425" y="115" font-size="12" fill="#5B6478">5.5 GB · 700 w/s ✓</text>
+    <rect x="405" y="155" width="220" height="80" rx="10" fill="#fff" stroke="#1E8E5A" stroke-width="2"/>
+    <text x="425" y="185" font-size="13" fill="#1E8E5A" font-weight="bold">P1b  4000–7FFF</text>
+    <text x="425" y="210" font-size="12" fill="#5B6478">5.5 GB · 700 w/s ✓</text>
+    <rect x="670" y="95" width="200" height="110" rx="10" fill="#F2F1EA" stroke="#5B6478" stroke-dasharray="5 4"/>
+    <text x="688" y="125" font-size="12" fill="#5B6478">Routing map updated.</text>
+    <text x="688" y="147" font-size="12" fill="#5B6478">Repeat this forever =</text>
+    <text x="688" y="169" font-size="12" fill="#5B6478">unlimited scale.</text>
+  </svg>
+  <figcaption>Fig 5.1 — Growth = keep splitting. Nothing central ever becomes the bottleneck.</figcaption>
+  </figure>
+
+  <div class="real">
+    <div class="rt">Real system · Duolingo</div>
+    <p>Duolingo stores every user's learning progress in DynamoDB — around <b>31 billion items</b>, serving hundreds of millions of exercises per day. Key = userId. Users spread evenly over partitions. When Duolingo's user base grew 10x, partitions just kept splitting in the background. The engineering team never re-sharded anything by hand. Compare that to MySQL, where 10x growth means painful manual sharding projects.</p>
+  </div>
+
+  <h3>The one danger: hot partition key</h3>
+  <p>Hashing spreads <b>keys</b> evenly, not <b>traffic</b>. If one single key gets most of the traffic, its one partition takes all of it. And a partition has a hard ceiling: 1,000 writes/sec, 3,000 reads/sec. Traffic above that gets throttled.</p>
+  <div class="real">
+    <div class="rt">Real system · Flash sale / IPL ticket booking (the classic failure)</div>
+    <p>Imagine our food app runs a "₹1 biryani" flash sale for ONE restaurant. Table: <code>Inventory</code>, PK = <code>restaurantId</code>. Now 500,000 people hit the SAME key at once. One partition. 1,000 writes/sec limit. Everyone else gets <code>ThrottlingException</code>. The app "goes down" even though DynamoDB is healthy.</p>
+    <p><b>The fix used by real ticketing and sale systems — write sharding:</b> split the hot key into 10 fake keys: <code>rest#77#0</code> ... <code>rest#77#9</code>. Each write picks one at random. Now traffic spreads over 10 partitions = 10,000 writes/sec. To read the total, read all 10 and add them up. Same trick is used for vote counting, like counters, and live match scoreboards.</p>
+  </div>
+</div></section>
+
+<!-- ============ 6 INDEXES ============ -->
+<section id="index"><div class="wrap">
+  <div class="kicker">Section 6 · Indexing</div>
+  <h2>GSI and LSI — querying by other fields</h2>
+  <p>Problem: our <code>Orders</code> table has PK = <code>customerId</code>. So "orders of customer 42" is easy. But the <b>restaurant</b> also needs a screen: "show all MY incoming orders". Query by <code>restaurantId</code>? Not possible — it is not the key.</p>
+  <p>Answer: a <b>Global Secondary Index (GSI)</b>. Simple mental model: <b>a GSI is an automatic copy of your table with a different key</b>. You write once; DynamoDB copies to the index in the background.</p>
+
+  <figure>
+  <svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace">
+    <defs><marker id="ar4" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#2F55D4"/></marker></defs>
+    <rect x="40" y="40" width="360" height="230" rx="10" fill="#fff" stroke="#1C2230" stroke-width="1.5"/>
+    <text x="60" y="70" font-size="14" fill="#1C2230" font-weight="bold">Base table: Orders</text>
+    <text x="60" y="94" font-size="12" fill="#5B6478">PK = customerId · SK = orderTime</text>
+    <rect x="60" y="108" width="320" height="28" rx="5" fill="#EAF0FF" stroke="#2F55D4"/>
+    <text x="70" y="127" font-size="11.5" fill="#1C2230">cust#42 | 13:00 | rest#77 | PLACED</text>
+    <rect x="60" y="142" width="320" height="28" rx="5" fill="#EAF0FF" stroke="#2F55D4"/>
+    <text x="70" y="161" font-size="11.5" fill="#1C2230">cust#42 | 13:05 | rest#12 | PLACED</text>
+    <rect x="60" y="176" width="320" height="28" rx="5" fill="#EAF0FF" stroke="#2F55D4"/>
+    <text x="70" y="195" font-size="11.5" fill="#1C2230">cust#91 | 13:02 | rest#77 | PLACED</text>
+    <text x="60" y="240" font-size="12" fill="#1E8E5A">"my orders" (customer) ✓</text>
+    <text x="60" y="258" font-size="12" fill="#C23B3B">"orders for my restaurant" ✗</text>
+    <path d="M400 155 L490 155" stroke="#2F55D4" stroke-width="2" marker-end="url(#ar4)"/>
+    <text x="398" y="143" font-size="11" fill="#2F55D4">auto copy (async)</text>
+    <rect x="495" y="40" width="370" height="230" rx="10" fill="#fff" stroke="#D97B0D" stroke-width="2"/>
+    <text x="515" y="70" font-size="14" fill="#D97B0D" font-weight="bold">GSI: restaurant-index</text>
+    <text x="515" y="94" font-size="12" fill="#5B6478">PK = restaurantId · SK = orderTime</text>
+    <rect x="515" y="108" width="330" height="28" rx="5" fill="#FFF3E0" stroke="#D97B0D"/>
+    <text x="525" y="127" font-size="11.5" fill="#1C2230">rest#77 | 13:00 | cust#42 | PLACED</text>
+    <rect x="515" y="142" width="330" height="28" rx="5" fill="#FFF3E0" stroke="#D97B0D"/>
+    <text x="525" y="161" font-size="11.5" fill="#1C2230">rest#77 | 13:02 | cust#91 | PLACED</text>
+    <rect x="515" y="176" width="330" height="28" rx="5" fill="#F2F1EA" stroke="#E3E0D6"/>
+    <text x="525" y="195" font-size="11.5" fill="#5B6478">rest#12 | 13:05 | cust#42 | PLACED</text>
+    <text x="515" y="240" font-size="12" fill="#1E8E5A">"orders for my restaurant" ✓ fast</text>
+    <text x="515" y="258" font-size="12" fill="#5B6478">reads may lag by milliseconds (eventual)</text>
+  </svg>
+  <figcaption>Fig 6.1 — Same data, copied with restaurantId as the new key. New question, new copy.</figcaption>
+  </figure>
+
+  <table>
+    <tr><th></th><th>LSI (Local)</th><th>GSI (Global)</th></tr>
+    <tr><td>What changes</td><td>Only the sort key</td><td>Whole key (new PK, new SK)</td></tr>
+    <tr><td>Lives where</td><td>Same partition as base data</td><td>Its own partitions (like a shadow table)</td></tr>
+    <tr><td>Read freshness</td><td>Can be strong</td><td>Always eventual (small lag)</td></tr>
+    <tr><td>When to create</td><td>Only at table creation, max 5</td><td>Anytime, max 20</td></tr>
+    <tr><td>Food app use</td><td>Customer's orders sorted by amount instead of time</td><td>Orders by restaurant, orders by status, riders by zone</td></tr>
+  </table>
+
+  <div class="real">
+    <div class="rt">Real system · Every marketplace uses this 3-view pattern</div>
+    <p>One order must be visible from three sides — this is exactly one base table + two GSIs:</p>
+    <p><b>Customer view</b> ("my orders") → base table, PK = customerId.<br>
+    <b>Restaurant view</b> ("incoming orders") → GSI-1, PK = restaurantId.<br>
+    <b>Rider/ops view</b> ("all PLACED orders in zone 5") → GSI-2, PK = zone#status.</p>
+    <p>Amazon's marketplace does the same thing at giant scale: one order is queryable by buyer, by seller, and by fulfillment status. Write once, DynamoDB maintains all views.</p>
+  </div>
+  <div class="note warn"><b>Two GSI traps (interviewers love these):</b> 1) A GSI has its own capacity — if the GSI is too small, it <b>throttles writes to the base table</b> too. 2) A low-cardinality GSI key like <code>status</code> (only 3–4 values) creates hot partitions inside the GSI. Better: combine fields, like <code>zone#status</code>.</div>
+</div></section>
+
+<!-- ============ 7 CONSISTENCY / HA ============ -->
+<section id="consistency"><div class="wrap">
+  <div class="kicker">Section 7 · Availability &amp; latency</div>
+  <h2>How it stays up and stays fast</h2>
+
+  <h3>Read choices — pick per request</h3>
+  <table>
+    <tr><th>Mode</th><th>Who answers</th><th>Cost</th><th>Food app use</th></tr>
+    <tr><td>Eventual (default)</td><td>Any of the 3 copies</td><td>0.5 RCU</td><td>Restaurant menu, reviews — tiny lag is fine</td></tr>
+    <tr><td>Strong</td><td>Leader only</td><td>1 RCU</td><td>Wallet balance, order status right after payment</td></tr>
+    <tr><td>Transaction</td><td>2-phase across leaders</td><td>2 RCU</td><td>Deduct wallet + create order together (all or nothing)</td></tr>
+  </table>
+
+  <h3>Why it never goes down (99.99% SLA)</h3>
+  <div class="grid2">
+    <div class="card green"><h4>3 copies, 3 buildings</h4><p>Every partition has 3 replicas in 3 different data centers (AZs). A whole building can burn down — 2 copies keep serving.</p></div>
+    <div class="card green"><h4>Leader dies → new leader in seconds</h4><p>Followers notice missing heartbeats and elect a new leader (Paxos). Reads never stopped; writes pause only seconds.</p></div>
+    <div class="card"><h4>Self-healing</h4><p>A background service finds dead machines and rebuilds their partition copies on healthy machines. No human involved.</p></div>
+    <div class="card"><h4>Global Tables</h4><p>Optional: copy the whole table to other AWS regions, active-active. Survives a full region outage.</p></div>
+  </div>
+
+  <h3>Why it stays fast at any size — the whole trick in one line</h3>
+  <p><b>Every request does a small, fixed amount of work, no matter how big the table is.</b></p>
+  <div class="flow">
+    <div class="step"><span class="sn">O(1)</span>hash the key → partition</div>
+    <div class="step"><span class="sn">O(1)</span>routing map lookup (cached)</div>
+    <div class="step"><span class="sn">1 hop</span>go to that one machine</div>
+    <div class="step"><span class="sn">O(log n)</span>B-tree search inside a ≤10 GB slice</div>
+    <div class="step"><span class="sn">done</span>no JOINs, no query planner, no compaction pause</div>
+  </div>
+
+  <div class="real">
+    <div class="rt">Real system · Disney+ watchlist &amp; "continue watching"</div>
+    <p>Disney+ launched and gained over 10 million subscribers on day one. Your watchlist and your "resume from 42:10" bookmark are stored in DynamoDB, key = userId. Every play/pause writes a bookmark — a huge global write stream. Each write is one small item to one partition. Latency stays at a few milliseconds whether there are 10 million users or 150 million, because your request never touches anyone else's data.</p>
+  </div>
+</div></section>
+
+<!-- ============ 8 ADVANCED ============ -->
+<section id="advanced"><div class="wrap">
+  <div class="kicker">Section 8 · Advanced tools</div>
+  <h2>The rest of the toolbox — each with a real use</h2>
+  <table>
+    <tr><th>Feature</th><th>Simple meaning</th><th>Real use</th></tr>
+    <tr><td>On-demand mode</td><td>Pay per request; scales instantly</td><td>Spiky traffic — flash sales, new launches</td></tr>
+    <tr><td>Provisioned mode</td><td>Reserve fixed capacity; cheaper if steady</td><td>Predictable daily load</td></tr>
+    <tr><td>Streams</td><td>A live change log of the table. Lambda can react to each change.</td><td>Order saved → Stream → Lambda sends push notification. This is a built-in Transactional Outbox — the pattern from your microservices prep, for free.</td></tr>
+    <tr><td>DAX</td><td>A managed cache in front of the table. Microsecond reads.</td><td>Flash-sale product page read by millions — cache absorbs the hot reads</td></tr>
+    <tr><td>TTL</td><td>Set an expiry time on an item; DynamoDB deletes it later, free</td><td>Sessions, OTP codes, "rider live location" that expires after the ride</td></tr>
+    <tr><td>Conditional write</td><td>"Write only IF condition is true" — atomic check-and-set</td><td><code>stock &gt; 0</code> check while selling last item; idempotency keys. The same conditional UPDATE trick from your inventory service design.</td></tr>
+    <tr><td>Transactions</td><td>All-or-nothing write across up to 100 items</td><td>Deduct wallet + create order + reserve stock together</td></tr>
+    <tr><td>Single-table design</td><td>Keep related entity types in one table so one query fetches them all</td><td><code>PK=CUST#42</code> with SK values <code>PROFILE</code>, <code>ORDER#...</code>, <code>ADDRESS#1</code> — profile + orders + addresses in ONE query. This replaces JOINs.</td></tr>
+    <tr><td>Query vs Scan</td><td>Query = one shelf (fast). Scan = whole library (slow, costly).</td><td>Never Scan in a user-facing path. Ever.</td></tr>
+  </table>
+
+  <div class="real">
+    <div class="rt">Real system · How the food app's order flow uses 4 features at once</div>
+    <p><b>1. Transaction:</b> deduct wallet + create the order item + decrement stock with a <b>conditional write</b> (<code>stock &gt; 0</code>) — all or nothing.</p>
+    <p><b>2. Stream:</b> the new order item appears in DynamoDB Streams. A Lambda reads it and notifies the restaurant. No dual-write problem, no Kafka needed for this hop.</p>
+    <p><b>3. GSI:</b> the restaurant dashboard queries the restaurant-index for its incoming orders.</p>
+    <p><b>4. TTL:</b> the rider's live GPS items carry a TTL and clean themselves up after the delivery.</p>
+    <p>This is a complete, real production pattern — and a great answer skeleton for a system design interview.</p>
+  </div>
+</div></section>
+
+<!-- ============ 9 COMPANIES ============ -->
+<section id="companies"><div class="wrap">
+  <div class="kicker">Section 9 · Quick recall</div>
+  <h2>Who runs what on DynamoDB — memory hooks</h2>
+  <table>
+    <tr><th>Company</th><th>What they store</th><th>Concept it proves</th></tr>
+    <tr><td>Amazon.com</td><td>Shopping cart, orders — 89.2M req/s peak on Prime Day 2021</td><td>Overall scale; stateless routers; per-partition parallelism</td></tr>
+    <tr><td>Zoom</td><td>User &amp; meeting metadata (30x growth in 3 months, 2020)</td><td>"Fully managed" = instant elasticity</td></tr>
+    <tr><td>Lyft</td><td>GPS points of every ride (PK=rideId, SK=time)</td><td>Composite keys; time-series pattern</td></tr>
+    <tr><td>Snap</td><td>Snapchat core storage incl. Stories</td><td>Partitioning spreads users; latency win after migration</td></tr>
+    <tr><td>Duolingo</td><td>~31 billion learning-progress items</td><td>Auto partition splits; no manual resharding</td></tr>
+    <tr><td>Disney+</td><td>Watchlists, "continue watching" bookmarks</td><td>Flat latency at any user count</td></tr>
+    <tr><td>Ticketing / flash sales</td><td>Inventory counters</td><td>Hot key problem + write sharding fix</td></tr>
+  </table>
+
+  <h3>One-line summaries to say in an interview</h3>
+  <div class="grid2">
+    <div class="card"><h4>What is it</h4><p>"A managed key-value store where the key is hashed to pick a partition, and every partition is a 3-replica Paxos group across 3 AZs."</p></div>
+    <div class="card amber"><h4>Why it scales</h4><p>"Nothing is global. Every request touches one partition and 1–3 machines, so scale = add partitions. Amazon proved it at 89M req/s."</p></div>
+    <div class="card green"><h4>Why it's fast</h4><p>"Fixed work per request: O(1) routing + one B-tree seek in a ≤10 GB slice. No JOINs, no compaction pauses."</p></div>
+    <div class="card red"><h4>Its weakness</h4><p>"Hot partition keys — hash spreads keys, not traffic. Fix with write sharding, better keys, or DAX."</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Sources: AWS USENIX ATC '22 DynamoDB paper · Amazon Science blog · AWS customer case studies (Zoom, Snap, Duolingo, Disney+, Lyft). Demo hash (FNV-1a) is illustrative only.
+</div></footer>
+
+<script>
+(function(){
+  const N = 4;
+  const ranges = ['0000–3FFF','4000–7FFF','8000–BFFF','C000–FFFF'];
+  const container = document.getElementById('parts');
+  for (let i=0;i<N;i++){
+    const d = document.createElement('div');
+    d.className='part'; d.id='p'+i;
+    d.innerHTML = '<div class="pn">Partition P'+i+'</div><div class="pr">hash '+ranges[i]+'</div>';
+    container.appendChild(d);
+  }
+  function fnv(s){
+    let h = 0x811c9dc5;
+    for (let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = (h * 0x01000193) >>> 0; }
+    return h >>> 0;
+  }
+  const input = document.getElementById('pkin');
+  const out = document.getElementById('hashout');
+  function update(){
+    const v = input.value || '';
+    const h = fnv(v);
+    const idx = h % N;
+    const hex = h.toString(16).toUpperCase().padStart(8,'0');
+    out.innerHTML = 'hash("'+v.replace(/</g,'&lt;')+'") = 0x'+hex+' &nbsp;→&nbsp; mod '+N+' = <b>Partition P'+idx+'</b>';
+    for (let i=0;i<N;i++) document.getElementById('p'+i).classList.toggle('hit', i===idx);
+  }
+  input.addEventListener('input', update);
+  update();
+})();
+</script>
+</body>
+</html>
