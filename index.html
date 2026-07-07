@@ -88,21 +88,111 @@
   .step .sn{font-family:var(--mono);font-size:11px;color:var(--amber);display:block;margin-bottom:4px}
 
   footer{padding:40px 0;color:var(--muted);font-size:14px;font-family:var(--mono)}
+
+  /* ===== Tab switcher ===== */
+  .tabbar{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:1px solid var(--line);padding:16px 0}
+  .tabbar .wrap{display:flex;gap:14px;flex-wrap:wrap}
+  .tabbtn{flex:1;min-width:220px;display:flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--mono);font-size:14px;letter-spacing:.02em;padding:16px 20px;border-radius:12px;
+    border:2px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
+  .tabbtn .ic{font-size:18px}
+  .tabbtn .lbl{display:flex;flex-direction:column;align-items:flex-start;line-height:1.3}
+  .tabbtn .lbl small{font-family:Georgia,serif;font-size:11.5px;color:inherit;opacity:.75;letter-spacing:0;text-transform:none}
+  .tabbtn:hover{border-color:var(--blue);color:var(--blue)}
+  .tabbtn.active.concepts{background:var(--blue);border-color:var(--blue);color:#fff}
+  .tabbtn.active.spring{background:linear-gradient(135deg,var(--amber),var(--purple));border-color:var(--purple);color:#fff}
+  .subnavbar{position:sticky;top:73px;z-index:55;background:rgba(251,250,246,.97);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:10px 0}
+  .subnavbar .wrap{display:flex;gap:4px;overflow-x:auto}
+  .subnavbar a{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .subnavbar a:hover{background:var(--blue-soft);color:var(--blue)}
+  #panelSpringboot .subnavbar a:hover{background:var(--purple-soft);color:var(--purple)}
+  .panel{display:none}
+  .panel.active{display:block}
+
+  /* ===== Story-driven feature blocks (Section 10) ===== */
+  .sb-banner{background:linear-gradient(135deg,var(--amber),var(--purple));color:#fff;border-radius:14px;padding:22px 26px;margin-bottom:24px}
+  .sb-banner .st{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:6px}
+  .sb-banner h2{color:#fff;margin-bottom:8px}
+  .sb-banner p{color:#FBF3E8;max-width:700px;margin-bottom:0}
+  .subnav{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+  .subnav a{font-family:var(--mono);font-size:12.5px;color:var(--purple);background:var(--purple-soft);border:1px solid #DCCEF0;padding:7px 12px;border-radius:20px;text-decoration:none}
+  .subnav a:hover{background:var(--purple);color:#fff}
+  .feat{border:1px solid var(--line);background:#fff;border-radius:14px;padding:24px;margin:22px 0}
+  .feat > .fh{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+  .feat .fnum{font-family:var(--mono);font-size:12px;background:var(--purple);color:#fff;padding:3px 9px;border-radius:6px}
+  .feat h3{margin:0}
+  .tagrow{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}
+  .tagrow span{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:20px}
+  .tag-repo{background:var(--green-soft);color:var(--green)}
+  .tag-tmpl{background:var(--blue-soft);color:var(--blue)}
+  .tag-both{background:var(--amber-soft);color:var(--amber)}
+  .whywhere{background:var(--blue-soft);border-left:3px solid var(--blue);padding:12px 16px;border-radius:0 8px 8px 0;font-size:15.5px;margin:12px 0}
+  .perf{background:#FBE9E9;border-left:3px solid var(--red);padding:12px 16px;border-radius:0 8px 8px 0;font-size:15px;margin:10px 0}
+  .perf b{color:var(--red)}
+  .decide{border:2px solid var(--amber);border-radius:12px;padding:20px;background:#fff;margin:20px 0}
+  .decide table{margin:0}
+  .storychip{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--amber-soft);color:var(--amber);padding:4px 12px;border-radius:20px;margin-bottom:12px}
+  .problem{background:#FBE9E9;border-left:4px solid var(--red);padding:14px 18px;border-radius:0 10px 10px 0;margin:14px 0}
+  .problem .lbl,.solution .lbl,.preview .lbl,.walk .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:bold;margin-bottom:8px;display:block}
+  .problem .lbl{color:var(--red)}
+  .problem p:last-child{margin-bottom:0}
+  .solution{background:var(--blue-soft);border-left:4px solid var(--blue);padding:14px 18px;border-radius:0 10px 10px 0;margin:14px 0}
+  .solution .lbl{color:var(--blue)}
+  .solution p:last-child{margin-bottom:0}
+  .preview{border:1.5px dashed var(--purple);background:#FBFAFF;border-radius:10px;padding:16px 18px;margin:14px 0}
+  .preview .lbl{color:var(--purple)}
+  .doc-window{background:#20242E;border-radius:8px;overflow:hidden;margin-top:8px}
+  .doc-titlebar{background:#171A21;padding:6px 14px;font-family:var(--mono);font-size:11px;color:#8A93A6;display:flex;align-items:center;gap:6px}
+  .doc-titlebar .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .doc-window pre{margin:0;border-radius:0;background:transparent}
+  .walk{background:#F1EAFB;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .walk .lbl{color:var(--purple)}
+  .walk ol{margin-left:20px}
+  .walk li{margin-bottom:9px;font-size:15px}
+  .walk li b{color:var(--purple)}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+  @media(max-width:720px){.compare{grid-template-columns:1fr}}
+  .compare .before{background:#FBE9E9;border:1px solid #EEC9C9;border-radius:10px;padding:14px 16px;font-size:14.5px}
+  .compare .after{background:var(--green-soft);border:1px solid #B8DFC6;border-radius:10px;padding:14px 16px;font-size:14.5px}
+  .compare .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;font-weight:bold;margin-bottom:6px;display:block}
+  .compare .before .lbl{color:var(--red)}
+  .compare .after .lbl{color:var(--green)}
+  .config{border:1.5px dashed var(--amber);background:#FFFBF2;border-radius:10px;padding:16px 18px;margin:14px 0}
+  .config .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:bold;margin-bottom:8px;display:block;color:var(--amber)}
+  .config table{margin:8px 0 0;font-size:14px}
+  .solution ol,.problem ol{margin:6px 0 0 20px}
+  .solution li,.problem li{margin-bottom:7px;font-size:15.5px}
+  .why{font-size:15px;background:#fff;border:1px solid #EEC9C9;border-radius:8px;padding:10px 14px;margin-top:10px}
+  .why b{color:var(--red)}
 </style>
 </head>
 <body>
 
-<nav><div class="wrap">
-  <a href="#story">0 The story</a><a href="#what">1 What</a><a href="#keys">2 Keys</a><a href="#storage">3 Storage</a>
-  <a href="#arch">4 Architecture</a><a href="#scale">5 Scale</a><a href="#index">6 Indexes</a>
-  <a href="#consistency">7 HA</a><a href="#advanced">8 Advanced</a><a href="#companies">9 Who uses it</a>
-</div></nav>
+<div class="tabbar"><div class="wrap">
+  <button id="btnConcepts" class="tabbtn active concepts" onclick="showTab('concepts')">
+    <span class="ic">📘</span>
+    <span class="lbl">DynamoDB Concepts<small>Theory, architecture, real systems</small></span>
+  </button>
+  <button id="btnSpring" class="tabbtn spring" onclick="showTab('spring')">
+    <span class="ic">☕</span>
+    <span class="lbl">Spring Boot Implementation<small>Java 25 code for every concept</small></span>
+  </button>
+</div></div>
 
 <header><div class="wrap">
   <div class="eyebrow">Simple guide · With real systems</div>
   <h1><b>DynamoDB</b> explained with real high-scale systems</h1>
   <p>Simple words. Short sentences. Every concept is explained twice: once in theory, once with a real system that uses it at massive scale. Running example: <b>a food delivery app</b> (think Swiggy / Zomato / DoorDash) that must handle 1 million orders per hour.</p>
 </div></header>
+
+<div id="panelConcepts" class="panel active">
+
+<div class="subnavbar"><div class="wrap">
+  <a href="#story">0 The story</a><a href="#what">1 What</a><a href="#keys">2 Keys</a><a href="#storage">3 Storage</a>
+  <a href="#arch">4 Architecture</a><a href="#scale">5 Scale</a><a href="#index">6 Indexes</a>
+  <a href="#consistency">7 HA</a><a href="#advanced">8 Advanced</a><a href="#companies">9 Who uses it</a>
+</div></div>
 
 <!-- ============ 0 STORY ============ -->
 <section id="story"><div class="wrap">
@@ -489,11 +579,841 @@ Query:
   </div>
 </div></section>
 
+</div> <!-- /panelConcepts -->
+
+<div id="panelSpringboot" class="panel">
+<!-- ================================================================ -->
+<!-- ============ 10 SPRING BOOT 4 + JAVA 25 IMPLEMENTATION ========== -->
+<!-- ================================================================ -->
+<section id="springboot"><div class="wrap">
+
+  <div class="sb-banner">
+    <div class="st">Section 10 · Hands-on, one story, eleven chapters</div>
+    <h2>Spring Boot 4 + Java 25 Implementation</h2>
+    <p>This section follows <b>one company — ShopSwift</b>, a Bengaluru-based online store — from launch day to a Big-Billion-Days-scale business. Every chapter is a real production incident: something breaks, we find out <b>why</b> it broke, and then we fix it with Spring Boot + DynamoDB code. Same characters throughout: <b>Meera</b> (a customer), the <b>Wireless Earbuds X200</b> (a hot product), and ShopSwift's ops team.</p>
+  </div>
+
+  <p>How to read each chapter: first <b>the incident</b> (what actually went wrong in production), then <b>why it happened</b> (the root cause, in plain words), then <b>how Spring Boot + DynamoDB fix it, step by step</b>, then <b>the code</b>, then a <b>walkthrough</b> — and, where settings are involved, a table showing <b>what each setting really controls, and what changes if you change it</b>.</p>
+
+  <div class="subnav">
+    <a href="#sb-setup">10.1 Setup</a>
+    <a href="#sb-docs">10.2 Table &amp; Key Design</a>
+    <a href="#sb-storage">10.3 Capacity &amp; Bulk Writes</a>
+    <a href="#sb-replica">10.4 Consistency</a>
+    <a href="#sb-shard">10.5 Hot Partitions</a>
+    <a href="#sb-index">10.6 Secondary Indexes</a>
+    <a href="#sb-tx">10.7 HA &amp; Global Tables</a>
+    <a href="#sb-advanced">10.8 Streams, DAX, TTL, Transactions</a>
+    <a href="#sb-decide">10.9 Enhanced vs Low-Level Client</a>
+    <a href="#sb-pitfalls">10.10 War Stories</a>
+    <a href="#sb-capstone" style="background:var(--green);color:#fff;border-color:var(--green)">10.11 Capstone ★</a>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.1 SETUP -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-setup">
+    <div class="fh"><span class="fnum">10.1</span><h3>Project setup &amp; connection</h3></div>
+    <div class="storychip">📖 Launch week · The bill and the blowup</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>ShopSwift's first deploy to production fails instantly: <code>ResourceNotFoundException: Table 'Orders' not found</code>. The table clearly exists — the team can see it in the AWS console. Two days of confusion later, someone spots it: the app is configured for region <code>us-east-1</code> (copied from a tutorial), but the table was created in <code>ap-south-1</code> (Mumbai). Same week, a second surprise: the AWS bill shows charges nobody expected — every developer's laptop had been running tests against the <b>real production AWS account</b> for a month, because there was no separate local setup.</p>
+      <div class="why"><b>Why this happens:</b> DynamoDB isn't a server you "connect" to like MySQL — every operation is a signed HTTPS call to a specific AWS <b>region</b>, and each region is a completely separate world. A table in Mumbai simply does not exist in Virginia. And tests hit real AWS by default because, unlike a database you install locally, DynamoDB lives in the cloud — unless you deliberately point development at a local stand-in, every test costs real money and touches real data.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How Spring Boot + AWS SDK solve it, step by step</span>
+      <ol>
+        <li><b>Add one dependency</b> (<code>dynamodb-enhanced</code>) — it brings both the low-level client and the Enhanced Client (typed Java objects).</li>
+        <li><b>Set the region once, in one config class</b> — every service in the app then talks to the right region automatically. No more copy-pasted tutorial regions scattered around.</li>
+        <li><b>Add an endpoint override property</b> — empty in production (real AWS), set to <code>http://localhost:8000</code> in development (DynamoDB Local, a free container). Same code everywhere; only one property differs.</li>
+        <li><b>Let credentials come from the environment</b> — the SDK automatically picks up the server's IAM role in production and your AWS profile locally. No access keys ever appear in code or Git.</li>
+      </ol>
+    </div>
+
+<pre><span class="c">// pom.xml — Spring Boot 4, Java 25, AWS SDK v2</span>
+&lt;dependency&gt;
+    &lt;groupId&gt;software.amazon.awssdk&lt;/groupId&gt;
+    &lt;artifactId&gt;dynamodb-enhanced&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+
+<pre><span class="c">// DynamoDbConfig.java — one bean each, shared across the whole app</span>
+@Configuration
+public class DynamoDbConfig {
+
+    @Value(<span class="s">"${aws.dynamodb.endpoint:}"</span>)   <span class="c">// empty in prod → real AWS; set locally → DynamoDB Local</span>
+    private String endpointOverride;
+
+    @Bean
+    public DynamoDbClient dynamoDbClient() {
+        var builder = DynamoDbClient.builder().region(Region.AP_SOUTH_1);
+        if (!endpointOverride.isBlank()) {
+            builder.endpointOverride(URI.create(endpointOverride));  <span class="c">// e.g. http://localhost:8000 for dev</span>
+        }
+        return builder.build();
+    }
+
+    @Bean
+    public DynamoDbEnhancedClient enhancedClient(DynamoDbClient client) {
+        return DynamoDbEnhancedClient.builder().dynamoDbClient(client).build();
+    }
+}</pre>
+
+    <div class="config">
+      <span class="lbl">⚙️ What each setting actually decides</span>
+      <table>
+        <tr><th>Setting</th><th>What it controls behind the scenes</th><th>If you change it</th></tr>
+        <tr><td>Region.AP_SOUTH_1</td><td>WHICH AWS region every call goes to — tables, data, and latency all live per-region</td><td>Point at the wrong region and your tables "don't exist" (the launch bug). Point at a far region and every call pays extra network distance — Mumbai→Virginia adds ~200ms to every single request.</td></tr>
+        <tr><td>endpointOverride (empty)</td><td>Empty = real AWS. Set = redirect ALL calls to that address instead</td><td>Set to localhost:8000 and tests run against a free local container — no AWS bill, no risk of touching production data. This one property is the whole dev/prod separation.</td></tr>
+        <tr><td>Credentials (none in code)</td><td>The SDK searches: env vars → AWS profile → the server's IAM role, in order</td><td>Hardcode keys instead and you've put AWS account access into Git — the cloud version of the password-in-code mistake, with a monthly bill attached if leaked.</td></tr>
+        <tr><td>One shared @Bean</td><td>The client is built once and reused; it manages its own HTTP connection pool internally</td><td>Build a new client per request and you pay setup cost every time and leak resources — clients are designed to be created once and shared.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Code walkthrough</span>
+      <ol>
+        <li><b>DynamoDbClient</b> is the raw, low-level door to DynamoDB. <b>DynamoDbEnhancedClient</b> wraps it and lets you work with typed Java classes instead of raw attribute maps — the Enhanced Client stars in every following chapter.</li>
+        <li>After this chapter, the launch bug is structurally impossible: the region lives in exactly one place, and dev machines physically cannot touch production.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.2 TABLE & KEY DESIGN + CRUD -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-docs">
+    <div class="fh"><span class="fnum">10.2</span><h3>Table &amp; key design → Entity classes + CRUD</h3></div>
+    <div class="storychip">📖 Week 3 · The ₹40,000 query</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>The "My Orders" page works fine for weeks. Then finance flags something odd: DynamoDB read costs jumped 15x in one month. The cause: "My Orders" was built with a <b>Scan</b> — because the Orders table's only key is <code>orderId</code>, and there's no direct way to ask "give me Meera's orders." So every page view reads the ENTIRE table — millions of items — and throws away everything that isn't Meera's. Slow for users, and DynamoDB bills for <b>every item read, not every item returned</b>.</p>
+      <div class="why"><b>Why this happens:</b> in DynamoDB you can only ask fast, cheap questions along the key you chose when creating the table. Key on <code>orderId</code> alone and "find by customer" simply has no fast path — the database's only option is to read everything. The mistake wasn't the query; it was the key design three weeks earlier. In DynamoDB, <b>you design the table around your questions, not around your data</b>.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How DynamoDB + Spring Boot solve it, step by step</span>
+      <ol>
+        <li><b>List the real questions first.</b> The #1 question is "give me this customer's orders, newest first." So the key must start with the customer.</li>
+        <li><b>Redesign the key as customerId (partition key) + orderTime (sort key).</b> Now all of Meera's orders live together, already sorted by time.</li>
+        <li><b>Map the item to a Java class with two annotations</b> (<code>@DynamoDbPartitionKey</code>, <code>@DynamoDbSortKey</code>) and wrap the table in a small <code>@Repository</code> class.</li>
+        <li><b>Replace the Scan with a Query.</b> A Query touches only Meera's partition — pay for 12 items, not 12 million.</li>
+      </ol>
+    </div>
+
+    <div class="preview">
+      <span class="lbl">📄 What Meera's order actually looks like as a DynamoDB item</span>
+      <div class="doc-window">
+        <div class="doc-titlebar"><span class="dot" style="background:#e05555"></span><span class="dot" style="background:#e0b155"></span><span class="dot" style="background:#55c47a"></span>&nbsp;ShopSwift_Orders — one item</div>
+<pre>{
+  <span class="k">"customerId"</span>:  <span class="s">"cust#901"</span>,          <span class="c">// partition key — Meera</span>
+  <span class="k">"orderTime"</span>:   <span class="s">"2026-07-06T13:00:00Z"</span>,  <span class="c">// sort key</span>
+  <span class="k">"orderId"</span>:     <span class="s">"ord#77213"</span>,
+  <span class="k">"productId"</span>:   <span class="s">"prod#5501"</span>,          <span class="c">// Wireless Earbuds X200</span>
+  <span class="k">"quantity"</span>:    <span class="n">1</span>,
+  <span class="k">"unitPrice"</span>:   <span class="n">2499</span>,
+  <span class="k">"status"</span>:      <span class="s">"PLACED"</span>
+}</pre>
+      </div>
+      <p style="margin-top:10px;margin-bottom:0">After the redesign: "My Orders" reads 12 items instead of millions. The next month's bill dropped back to normal, and the page loads in single-digit milliseconds.</p>
+    </div>
+
+<pre><span class="c">// Order.java — @DynamoDbBean = the Enhanced Client's version of @Document</span>
+@DynamoDbBean
+public class Order {
+    private String customerId;      <span class="c">// partition key</span>
+    private String orderTime;       <span class="c">// sort key — ISO timestamp, sorts naturally</span>
+    private String orderId;
+    private String productId;
+    private int quantity;
+    private BigDecimal unitPrice;
+    private String status;
+
+    @DynamoDbPartitionKey
+    public String getCustomerId() { return customerId; }
+
+    @DynamoDbSortKey
+    public String getOrderTime() { return orderTime; }
+
+    <span class="c">// ...getters/setters for the rest</span>
+}</pre>
+
+<pre><span class="c">// OrderRepository.java — a thin wrapper class; DynamoDB has no official Spring "MongoRepository" equivalent</span>
+@Repository
+public class OrderRepository {
+    private final DynamoDbTable&lt;Order&gt; table;
+
+    public OrderRepository(DynamoDbEnhancedClient enhancedClient) {
+        this.table = enhancedClient.table(<span class="s">"ShopSwift_Orders"</span>, TableSchema.fromBean(Order.class));
+    }
+
+    public Order save(Order order) {
+        table.putItem(order);            <span class="c">// INSERT / overwrite</span>
+        return order;
+    }
+
+    public List&lt;Order&gt; findByCustomer(String customerId) {
+        QueryConditional query = QueryConditional.keyEqualTo(
+            Key.builder().partitionValue(customerId).build());
+        return table.query(r -&gt; r.queryConditional(query).scanIndexForward(false))  <span class="c">// newest first</span>
+                     .items().stream().toList();
+    }
+}</pre>
+
+    <div class="tagrow"><span class="tag-repo">DynamoDbEnhancedClient</span></div>
+
+    <div class="config">
+      <span class="lbl">⚙️ What each key decision actually decides</span>
+      <table>
+        <tr><th>Decision</th><th>What it controls behind the scenes</th><th>If you choose differently</th></tr>
+        <tr><td>customerId as partition key</td><td>WHERE each item physically lives — all of one customer's orders land on one partition, reachable directly</td><td>Key on orderId alone and "orders by customer" has no fast path forever — the ₹40,000 Scan is the only option. Changing a key later means migrating the whole table.</td></tr>
+        <tr><td>orderTime as sort key</td><td>The ORDER of items within the customer's partition — stored pre-sorted by time</td><td>No sort key = one item per customer max, and no "newest first" for free. An ISO timestamp string sorts correctly by simple text order — that's why the format matters.</td></tr>
+        <tr><td>Query vs Scan</td><td>Query jumps straight to one partition; Scan reads the whole table and bills for every item touched</td><td>This single choice was the entire cost incident. Rule ShopSwift adopted: Scan is banned in anything a customer can trigger.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Code walkthrough</span>
+      <ol>
+        <li><b>@DynamoDbPartitionKey / @DynamoDbSortKey</b> on the getters declare the composite key — the annotations version of the table design decision.</li>
+        <li><b>enhancedClient.table(...)</b> returns a typed <code>DynamoDbTable&lt;Order&gt;</code> — everything after this speaks in real <code>Order</code> objects, not raw maps.</li>
+        <li><b>scanIndexForward(false)</b> flips the sort — "newest first," like <code>ORDER BY orderTime DESC</code>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.3 CAPACITY & BULK WRITES -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-storage">
+    <div class="fh"><span class="fnum">10.3</span><h3>Capacity modes &amp; bulk writes</h3></div>
+    <div class="storychip">📖 Month 2 · Big Billion Days</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>ShopSwift's first mega-sale. Two failures, same night. <b>First:</b> at midnight, traffic jumps 25x — and orders start failing with <code>ProvisionedThroughputExceededException</code>. The table was set up with a fixed capacity that made sense for normal days; the sale blew straight through it. <b>Second:</b> the night before, the catalog team updated prices on 40,000 products with a simple loop — one <code>putItem</code> call per product. It ran for over an hour and a chunk of the calls timed out, leaving some products at the OLD price during the sale.</p>
+      <div class="why"><b>Why this happens:</b> <b>(1)</b> In provisioned mode, you promise AWS a traffic level, and AWS holds you to it — traffic above the promise gets rejected, by design. Nobody re-did the math for a 25x night. <b>(2)</b> The price loop was slow because each <code>putItem</code> is one full HTTPS round trip (~10–20ms). 40,000 sequential round trips = over an hour of pure network waiting. The work wasn't slow — the trips were.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How DynamoDB + Spring Boot solve it, step by step</span>
+      <ol>
+        <li><b>Switch spiky tables to on-demand mode</b> (<code>PAY_PER_REQUEST</code>) — DynamoDB then absorbs whatever traffic arrives and bills per request. No promise to blow through.</li>
+        <li><b>Batch the bulk update</b> with <code>BatchWriteItem</code> — up to 25 items per network trip. 40,000 items become 1,600 trips instead of 40,000.</li>
+        <li><b>Handle partial failures</b> — a batch can succeed for 23 items and return 2 as unprocessed. Production code must retry those, or prices silently stay stale (exactly what bit ShopSwift).</li>
+      </ol>
+    </div>
+
+    <div class="preview">
+      <span class="lbl">📄 The numbers that forced this decision</span>
+      <div class="compare">
+        <div class="before"><span class="lbl">One-by-one loop</span>40,000 putItem calls × ~15ms each ≈ 70+ minutes, timeouts under load, stale prices during the sale.</div>
+        <div class="after"><span class="lbl">Batched</span>40,000 ÷ 25 = 1,600 BatchWriteItem calls ≈ a few minutes, with unprocessed items retried automatically.</div>
+      </div>
+    </div>
+
+<pre><span class="c">// ProductRepository.java — bulk price update using BatchWriteItem, with retry for leftovers</span>
+@Repository
+public class ProductRepository {
+    private final DynamoDbEnhancedClient enhancedClient;
+    private final DynamoDbTable&lt;Product&gt; table;
+
+    public void bulkUpdatePrices(List&lt;Product&gt; products) {
+        for (List&lt;Product&gt; chunk : Lists.partition(products, 25)) {   <span class="c">// hard limit: 25 per batch</span>
+            WriteBatch batch = WriteBatch.builder(Product.class)
+                .mappedTableResource(table)
+                .addPutItem(builder -&gt; chunk.forEach(builder::item))
+                .build();
+
+            var result = enhancedClient.batchWriteItem(r -&gt; r.addWriteBatch(batch));
+            var leftovers = result.unprocessedPutItemsForTable(table);
+            if (!leftovers.isEmpty()) {
+                bulkUpdatePrices(leftovers);      <span class="c">// retry what DynamoDB couldn't take this round</span>
+            }
+        }
+    }
+}</pre>
+
+<pre><span class="c">// infrastructure-as-code note: table capacity mode (Terraform / CloudFormation, not Java)</span>
+resource <span class="s">"aws_dynamodb_table"</span> <span class="s">"orders"</span> {
+  billing_mode = <span class="s">"PAY_PER_REQUEST"</span>   <span class="c">// on-demand — no capacity promise to blow through</span>
+}</pre>
+
+    <div class="tagrow"><span class="tag-tmpl">DynamoDbEnhancedClient (batch)</span></div>
+
+    <div class="config">
+      <span class="lbl">⚙️ What each setting actually decides</span>
+      <table>
+        <tr><th>Setting</th><th>What it controls behind the scenes</th><th>If you change it</th></tr>
+        <tr><td>PAY_PER_REQUEST (on-demand)</td><td>DynamoDB auto-scales throughput; you pay per actual request</td><td>Switch to PROVISIONED for steady, predictable traffic and it's cheaper — but you own the capacity math, and a 25x sale night becomes YOUR planning problem again.</td></tr>
+        <tr><td>Batch size 25</td><td>DynamoDB's hard maximum items per BatchWriteItem call</td><td>Send 26 and the whole call is rejected. That's why the code chunks first — it's a rule, not a preference.</td></tr>
+        <tr><td>Retrying unprocessedItems</td><td>DynamoDB may accept only part of a batch under pressure, returning the rest</td><td>Skip the retry and some writes silently never happen — no exception, no log, just stale data discovered weeks later. This exact gap caused the stale-price incident.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Code walkthrough</span>
+      <ol>
+        <li><b>Lists.partition(products, 25)</b> respects the hard batch limit.</li>
+        <li><b>unprocessedPutItemsForTable(table)</b> asks "which items did DynamoDB NOT take?" — and the recursive call retries exactly those, until none remain.</li>
+        <li>Same lesson as everywhere in this guide: batching beats one-at-a-time, and partial success must be handled, not assumed away.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.4 CONSISTENCY -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-replica">
+    <div class="fh"><span class="fnum">10.4</span><h3>Read consistency → strongly vs eventually consistent reads</h3></div>
+    <div class="storychip">📖 Month 3 · The disappearing cart item</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>A pattern emerges in support tickets: <i>"I added the earbuds to my cart, opened the cart, and it was EMPTY. I refreshed and it appeared."</i> Nobody can reproduce it in the office. It happens to maybe 1 in 500 add-to-cart actions, always in the same shape: write, then an immediate read that misses the write, then a refresh that finds it.</p>
+      <div class="why"><b>Why this happens:</b> DynamoDB keeps three copies of every item in three data centers (the theory tab's Section 4). A write is confirmed once two copies have it — the third catches up milliseconds later. A default read may be answered by <b>any</b> of the three copies. Add-to-cart → instantly open cart is a race: if the read lands on the copy that hasn't caught up yet, the cart looks empty. It's rare and timing-dependent — which is exactly why the office could never reproduce it, and production, with millions of attempts, hit it daily.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How DynamoDB + Spring Boot solve it, step by step</span>
+      <ol>
+        <li><b>Sort reads into two buckets.</b> Bucket A: browsing, search results, product pages — a few ms of staleness is invisible. Bucket B: the cart right after a change, order status right after checkout — must reflect the write that JUST happened.</li>
+        <li><b>Give bucket B one flag:</b> <code>consistentRead(true)</code> — the read is answered by the up-to-date leader copy, never a lagging one. Costs 2x the read units; worth it exactly here.</li>
+        <li><b>Leave bucket A on the cheap default</b> — most of the app's reads, at half the cost.</li>
+      </ol>
+    </div>
+
+    <div class="preview">
+      <span class="lbl">📄 Same table, two very different reads</span>
+      <div class="compare">
+        <div class="after"><span class="lbl">Product listing page (bucket A)</span>Eventually consistent. A few ms of staleness is invisible — half the cost.</div>
+        <div class="before"><span class="lbl">Cart, right after add-to-cart (bucket B)</span>Strongly consistent. Must see the write that just happened — the 1-in-500 bug lives here.</div>
+      </div>
+    </div>
+
+<pre><span class="c">// CartService.java — fixes the exact bug from the story</span>
+@Service
+public class CartService {
+    private final DynamoDbTable&lt;CartItem&gt; cartTable;
+
+    public List&lt;CartItem&gt; getCartAfterUpdate(String customerId) {
+        QueryConditional query = QueryConditional.keyEqualTo(
+            Key.builder().partitionValue(customerId).build());
+
+        return cartTable.query(r -&gt; r.queryConditional(query)
+                                      .consistentRead(true))     <span class="c">// forces the STRONG read</span>
+                         .items().stream().toList();
+    }
+
+    public List&lt;Product&gt; browseProducts(String category) {
+        <span class="c">// default (eventually consistent) — cheaper, fine for browsing</span>
+        return productIndex.query(r -&gt; r.queryConditional(
+            QueryConditional.keyEqualTo(Key.builder().partitionValue(category).build())))
+            .items().stream().toList();
+    }
+}</pre>
+
+    <div class="config">
+      <span class="lbl">⚙️ What the one flag actually decides</span>
+      <table>
+        <tr><th>Setting</th><th>What it controls behind the scenes</th><th>If you change it</th></tr>
+        <tr><td>consistentRead(true)</td><td>The read is served by the leader copy — the one that just accepted the write</td><td>Guaranteed fresh, costs 2× read units, slightly higher latency. Use it for read-your-own-write moments only.</td></tr>
+        <tr><td>consistentRead(false) — default</td><td>Any of the 3 copies may answer; a lagging one is possible for a few ms</td><td>Half the cost, spreads load. Using it everywhere is how the disappearing-cart bug shipped; using strong reads everywhere doubles the read bill for no user-visible benefit.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Code walkthrough</span>
+      <ol>
+        <li>The decision is <b>per call</b>, not app-wide — exactly like Mongo's <code>ReadPreference.primary()</code> vs <code>secondaryPreferred()</code> in the MongoDB guide. Same idea, different database.</li>
+        <li>After shipping: the "empty cart" tickets stopped completely. Total read cost rose about 4% — only the cart path pays the premium.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.5 HOT PARTITIONS -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-shard">
+    <div class="fh"><span class="fnum">10.5</span><h3>Scaling → fixing a hot partition key</h3></div>
+    <div class="storychip">📖 Month 4 · The ₹999 flash sale</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>One-hour flash sale: Wireless Earbuds X200 at ₹999. Half a million people show up for ONE product. Within two minutes, checkout starts failing with <code>ThrottlingException</code> — even though the table is on on-demand mode and the AWS console shows the table as a whole is nowhere near any limit. The team is baffled: how can a table with near-unlimited capacity throttle?</p>
+      <div class="why"><b>Why this happens:</b> capacity is unlimited for the <b>table</b>, but not for a single <b>key</b>. The Inventory table's partition key is <code>productId</code> — so every stock decrement for the earbuds hashes to the SAME partition, and one partition has a hard physical ceiling (~1,000 writes/second) that no billing mode can raise. On-demand mode scales by spreading traffic across many partitions — it cannot help when all the traffic insists on one key. This is the hot-partition problem from the theory tab's Section 5, live.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How DynamoDB + Spring Boot solve it, step by step</span>
+      <ol>
+        <li><b>Split the one hot key into N fake keys</b> — <code>prod#5501#0</code> … <code>prod#5501#9</code> — each holding a slice of the stock. This is called <b>write sharding</b>.</li>
+        <li><b>Each write picks a shard at random</b> — traffic now spreads over 10 partitions ≈ 10,000 writes/second of headroom.</li>
+        <li><b>Guard every decrement with a condition</b> (<code>stock ≥ qty</code>) so the last unit can't be sold twice.</li>
+        <li><b>Pay on the read side instead</b> — a stock check reads all 10 shards and adds them up. Stock checks happen far less often than decrements during a sale, so this is the cheap side to pay on.</li>
+      </ol>
+    </div>
+
+    <div class="preview">
+      <span class="lbl">📄 Before vs after write sharding</span>
+      <div class="compare">
+        <div class="before"><span class="lbl">Before</span>All decrements → key <code>prod#5501</code> → 1 partition → hard ceiling ~1,000 writes/sec → throttling in minutes.</div>
+        <div class="after"><span class="lbl">After</span>Decrements spread across <code>prod#5501#0..9</code> → 10 partitions → ~10,000 writes/sec headroom.</div>
+      </div>
+    </div>
+
+<pre><span class="c">// InventoryService.java — the write-sharding fix</span>
+@Service
+public class InventoryService {
+    private static final int SHARDS = 10;
+    private final DynamoDbTable&lt;InventoryShard&gt; table;
+
+    public boolean decrementStock(String productId, int qty) {
+        String shardKey = productId + <span class="s">"#"</span> + ThreadLocalRandom.current().nextInt(SHARDS);  <span class="c">// spread writes</span>
+
+        return table.updateItem(r -&gt; r.item(new InventoryShard(shardKey, -qty))
+            .conditionExpression(Expression.builder()
+                .expression(<span class="s">"stock &gt;= :qty"</span>)                 <span class="c">// prevents overselling</span>
+                .putExpressionValue(<span class="s">":qty"</span>, AttributeValue.fromN(String.valueOf(qty)))
+                .build())) != null;
+    }
+
+    public int totalStock(String productId) {
+        int total = 0;
+        for (int i = 0; i &lt; SHARDS; i++) {
+            InventoryShard shard = table.getItem(Key.builder().partitionValue(productId + <span class="s">"#"</span> + i).build());
+            total += (shard != null) ? shard.getStock() : 0;
+        }
+        return total;    <span class="c">// read fan-out — 10 reads instead of 1, done rarely</span>
+    }
+}</pre>
+
+    <div class="tagrow"><span class="tag-tmpl">DynamoDbEnhancedClient</span></div>
+
+    <div class="config">
+      <span class="lbl">⚙️ What each choice actually decides</span>
+      <table>
+        <tr><th>Choice</th><th>What it controls behind the scenes</th><th>If you change it</th></tr>
+        <tr><td>SHARDS = 10</td><td>How many partitions the hot key's traffic spreads across — the write ceiling multiplier</td><td>Raise to 20 → ~20,000 writes/sec headroom, but every stock check now does 20 reads. Size it to the biggest sale you actually expect, not the biggest imaginable.</td></tr>
+        <tr><td>Random shard pick</td><td>Even spread with zero coordination between app instances</td><td>Round-robin per instance also works; anything based on customer ID would create its own mini hot spots for heavy users.</td></tr>
+        <tr><td>conditionExpression stock ≥ qty</td><td>Check-and-decrement as ONE atomic step on the item itself</td><td>Check in Java first, decrement second, and two buyers of the last unit both pass the check — the oversell bug in war story 10.10.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Code walkthrough</span>
+      <ol>
+        <li><b>shardKey = productId + "#" + random(0..9)</b> — one line, and the hot key becomes ten warm keys.</li>
+        <li><b>totalStock</b> pays the fan-out cost where it's cheap: the "in stock" badge is read occasionally; decrements were happening thousands of times a second.</li>
+        <li>Same trick powers likes counters, vote counts, and live scoreboards everywhere — spread the hot write, fan-in the rare read.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.6 SECONDARY INDEXES -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-index">
+    <div class="fh"><span class="fnum">10.6</span><h3>GSI &amp; LSI → querying by other fields</h3></div>
+    <div class="storychip">📖 Month 5 · Two screens the key can't answer</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>Two feature requests land the same week. The ops team needs a live dashboard: <i>"every order currently PROCESSING, across ALL customers"</i> — so they can spot stuck orders. And the storefront needs "all products in Electronics." Both teams hit the same wall: the Orders key is <code>customerId + orderTime</code>, and Products is keyed by <code>productId</code>. Neither table can answer these questions without a full Scan — and after the ₹40,000 lesson in 10.2, Scan is banned.</p>
+      <div class="why"><b>Why this happens:</b> a DynamoDB table answers fast questions ONLY along its key. Every genuinely new question ("by status", "by category") needs its own key — and that is literally what a GSI is: DynamoDB maintaining a second, automatically-synced copy of the data, organized under a different key. Nothing is wrong with the original design; the app simply grew new questions.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How DynamoDB + Spring Boot solve it, step by step</span>
+      <ol>
+        <li><b>One GSI per new question.</b> Orders gets <code>status-index</code> (key: status + orderTime). Products gets <code>category-index</code>.</li>
+        <li><b>Declare it with two annotations</b> on the entity — DynamoDB builds and maintains the copy in the background; every write to the base table flows into the index automatically.</li>
+        <li><b>Query through the index handle</b> (<code>table.index("status-index")</code>) exactly like querying the table.</li>
+      </ol>
+    </div>
+
+<pre><span class="c">// Order.java — adding a GSI is just two more annotations</span>
+@DynamoDbBean
+public class Order {
+    <span class="c">// ...existing fields from 10.2...</span>
+
+    @DynamoDbSecondaryPartitionKey(indexNames = <span class="s">"status-index"</span>)
+    public String getStatus() { return status; }
+
+    @DynamoDbSecondarySortKey(indexNames = <span class="s">"status-index"</span>)
+    public String getOrderTime() { return orderTime; }   <span class="c">// reused as the GSI's sort key too</span>
+}</pre>
+
+<pre><span class="c">// OrderRepository.java — querying the new GSI</span>
+public List&lt;Order&gt; findByStatus(String status) {
+    DynamoDbIndex&lt;Order&gt; statusIndex = table.index(<span class="s">"status-index"</span>);
+    QueryConditional query = QueryConditional.keyEqualTo(
+        Key.builder().partitionValue(status).build());
+
+    return statusIndex.query(r -&gt; r.queryConditional(query))
+                       .stream().flatMap(page -&gt; page.items().stream())
+                       .toList();
+}</pre>
+
+    <div class="tagrow"><span class="tag-repo">DynamoDbEnhancedClient</span></div>
+
+    <div class="config">
+      <span class="lbl">⚙️ What each GSI decision actually decides</span>
+      <table>
+        <tr><th>Decision</th><th>What it controls behind the scenes</th><th>If you choose differently</th></tr>
+        <tr><td>GSI key = status</td><td>A shadow copy of the table, partitioned by status — "all PROCESSING" becomes a one-partition query</td><td>Careful: status has only ~5 values, so ALL processing orders share one GSI partition — at very high volume that's a hot partition inside the index. The fix is a composite key like <code>status#region</code>.</td></tr>
+        <tr><td>GSI capacity</td><td>The index has its own throughput, separate from the table</td><td>Under-provision the GSI and something surprising happens: writes to the BASE table start throttling too, because every base write must also update the index. War story 10.10.</td></tr>
+        <tr><td>Reads through a GSI</td><td>Always eventually consistent — the copy syncs in the background</td><td>There is no consistentRead(true) for a GSI. If a screen needs read-your-own-write freshness, it must query the base table.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Code walkthrough</span>
+      <ol>
+        <li><b>indexNames = "status-index"</b> ties the annotation to a named index — one entity class can carry several GSIs.</li>
+        <li><b>table.index(...)</b> returns a query handle that works exactly like the table's — the ops dashboard code is four lines.</li>
+        <li>The same order is now findable two ways — by customer (base key) and by status (GSI) — write once, DynamoDB maintains both views.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.7 HA & GLOBAL TABLES -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-tx">
+    <div class="fh"><span class="fnum">10.7</span><h3>High availability &amp; Global Tables</h3></div>
+    <div class="storychip">📖 Month 6 · The due-diligence question</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>ShopSwift is raising money. During technical due diligence, an investor's advisor asks one question: <i>"AWS Mumbai had a major incident last year. If the whole region goes down on your biggest sale day, what happens?"</i> The honest answer today: the entire business goes offline until AWS recovers. Every table, every copy, lives in one region.</p>
+      <div class="why"><b>Why this happens:</b> DynamoDB's built-in 3 copies live in 3 different <i>buildings</i> (availability zones) — that survives fires and power failures, and it's why ShopSwift has had zero database downtime so far. But all 3 buildings are in the same <i>city</i> (region). A region-wide event — rare, but real — takes all three at once. Building-level safety and region-level safety are different problems.</div>
+    </div>
+
+    <div class="solution">
+      <span class="lbl">💡 How DynamoDB solves it, step by step</span>
+      <ol>
+        <li><b>Enable Global Tables</b> — one command adds a full, live replica of the table in another region (say Singapore). Writes flow both ways, typically syncing within about a second.</li>
+        <li><b>Change zero application code</b> — the same Enhanced Client code keeps working; the app doesn't know it's multi-region.</li>
+        <li><b>Plan the one real consequence:</b> with two regions accepting writes, a simultaneous write to the same item in both resolves as "last writer wins." The conditional writes from 10.5 and idempotent retries from 10.3 matter even more here.</li>
+      </ol>
+    </div>
+
+<pre><span class="c">// Enabling Global Tables — an infrastructure decision, not application code</span>
+aws dynamodb update-table \
+  --table-name ShopSwift_Orders \
+  --replica-updates <span class="s">'[{"Create": {"RegionName": "ap-southeast-1"}}]'</span>   <span class="c">// add a Singapore replica</span></pre>
+
+    <div class="config">
+      <span class="lbl">⚙️ What this actually decides</span>
+      <table>
+        <tr><th>Choice</th><th>What it controls behind the scenes</th><th>If you choose differently</th></tr>
+        <tr><td>Adding a replica region</td><td>A complete, writable copy of the table in another city, synced continuously</td><td>Costs roughly double (storage + replicated writes in each region). Worth it once "the region is down" is a business-ending scenario — not before. ShopSwift enabled it only when investors made region failure a real question.</td></tr>
+        <tr><td>Doing nothing (single region)</td><td>3 copies across 3 buildings in one city — 99.99% availability</td><td>Perfectly fine for most businesses most of the time. The honest engineering answer is knowing WHICH failure you're paying to survive.</td></tr>
+      </table>
+    </div>
+
+    <div class="walk">
+      <span class="lbl">🔍 Walkthrough</span>
+      <ol>
+        <li>This is the rare chapter where the fix isn't Java — it's an infrastructure decision. The application's only job is to already be well-behaved: idempotent writes, conditional checks, retries.</li>
+        <li>The due-diligence answer changed from "we go offline" to "traffic fails over to Singapore with about a second of replication lag."</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.8 ADVANCED -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-advanced">
+    <div class="fh"><span class="fnum">10.8</span><h3>Streams, DAX, TTL, Transactions</h3></div>
+    <div class="storychip">📖 Month 7 · Growing pains of success</div>
+    <p>Four real problems landed in the same sprint. Each has a one-paragraph story, a why, and a fix.</p>
+
+    <h3 style="margin-top:8px">A) The warehouse finds out late → DynamoDB Streams</h3>
+    <div class="problem"><span class="lbl">🔴 The incident</span><p>Warehouse packers work off a report refreshed every 5 minutes. On sale days, that's a 5-minute head start lost on every order — and "deliver tomorrow" promises start slipping.</p>
+    <div class="why"><b>Why this happens:</b> refresh-based (polling) designs always trade delay for load — poll rarely and you're late, poll constantly and you hammer the table. The database KNOWS the instant an order lands; the warehouse just isn't being told.</div></div>
+    <div class="solution"><span class="lbl">💡 The fix</span><p>DynamoDB Streams emits an ordered event for every change; a Lambda receives each new order the moment it's written and pushes it to the warehouse screen. No polling anywhere.</p></div>
+<pre><span class="c">// OrderStreamHandler.java — an AWS Lambda triggered by the Orders table's stream</span>
+public class OrderStreamHandler implements RequestHandler&lt;DynamodbEvent, Void&gt; {
+    @Override
+    public Void handleRequest(DynamodbEvent event, Context context) {
+        for (DynamodbEvent.DynamodbStreamRecord record : event.getRecords()) {
+            if (<span class="s">"INSERT"</span>.equals(record.getEventName())) {
+                notifyWarehouse(record.getDynamodb().getNewImage());   <span class="c">// same role as Mongo Change Streams</span>
+            }
+        }
+        return null;
+    }
+}</pre>
+
+    <h3>B) The homepage hammers the same 20 items → DAX</h3>
+    <div class="problem"><span class="lbl">🔴 The incident</span><p>During sales, the homepage's 20 "featured products" are read tens of thousands of times a second — identical reads, identical answers, full price paid every time.</p>
+    <div class="why"><b>Why this happens:</b> the same barely-changing data is being re-fetched from the table on every page view. This is the textbook case for a cache — remember the answer, serve it from memory.</div></div>
+    <div class="solution"><span class="lbl">💡 The fix</span><p>DAX — a managed cache that speaks DynamoDB's own API. Swap the endpoint, keep the code; hot reads drop to microseconds and the table stops paying for repetition.</p></div>
+<pre><span class="c">// DaxConfig.java — swap the endpoint, not the code</span>
+@Bean
+public DynamoDbClient daxClient() {
+    return DynamoDbClient.builder()
+        .endpointOverride(URI.create(<span class="s">"dax://shopswift-cluster.abcdef.dax-clusters.aws.com"</span>))
+        .build();
+}</pre>
+
+    <h3>C) Abandoned carts pile up forever → TTL</h3>
+    <div class="problem"><span class="lbl">🔴 The incident</span><p>Storage costs creep up month over month. Investigation: millions of cart items from shoppers who never checked out — some over a year old — sitting in the table forever.</p>
+    <div class="why"><b>Why this happens:</b> nothing ever deletes them. Writing a cleanup job is easy to postpone forever; meanwhile every abandoned cart costs storage money monthly.</div></div>
+    <div class="solution"><span class="lbl">💡 The fix</span><p>A TTL attribute: stamp each cart item with an expiry time; DynamoDB deletes it automatically after that, for free — no cleanup job, no cron, no code to maintain.</p></div>
+<pre>@DynamoDbBean
+public class CartItem {
+    <span class="c">// ...</span>
+    private long expiresAt;   <span class="c">// epoch seconds — set to now + 7 days when the item is added</span>
+
+    @DynamoDbAttribute(<span class="s">"expiresAt"</span>)
+    public long getExpiresAt() { return expiresAt; }
+}
+<span class="c">// Table-level: aws dynamodb update-time-to-live --attribute-name expiresAt --enabled</span></pre>
+
+    <h3>D) The ₹2,499 that vanished → Transactions</h3>
+    <div class="problem"><span class="lbl">🔴 The incident</span><p>Meera's wallet shows a ₹2,499 deduction for the earbuds — but no order exists. The app crashed between "deduct wallet" and "create order." 9 similar cases that month, always during deploys.</p>
+    <div class="why"><b>Why this happens:</b> two separate writes with a millisecond gap between them — and a crash in the gap leaves write 1 done and write 2 never happening. Each write alone is safe; the PAIR isn't. Identical bug shape to QuickBite's ₹680 story in the MongoDB guide — this failure mode exists in every payment system in every database.</div></div>
+    <div class="solution"><span class="lbl">💡 The fix</span><p><code>TransactWriteItems</code> — both writes commit as one all-or-nothing unit, with the balance check baked into the deduction itself.</p></div>
+<pre><span class="c">// PaymentService.java</span>
+public void placeOrderWithPayment(String customerId, Order order, BigDecimal amount) {
+    enhancedClient.transactWriteItems(r -&gt; r
+        .addUpdateItem(walletTable, TransactUpdateItemEnhancedRequest.builder(Wallet.class)
+            .item(new Wallet(customerId, amount.negate()))
+            .conditionExpression(Expression.builder()
+                .expression(<span class="s">"balance &gt;= :amt"</span>)
+                .putExpressionValue(<span class="s">":amt"</span>, AttributeValue.fromN(amount.toString()))
+                .build())
+            .build())
+        .addPutItem(orderTable, order));   <span class="c">// both succeed, or both roll back</span>
+}</pre>
+
+    <div class="whywhere"><b>The pattern, once more, in a second database:</b> a conditional check baked into the write, plus an all-or-nothing multi-write guarantee — the same shape as Mongo's <code>@Transactional</code> wallet fix and SQL's <code>UPDATE ... WHERE balance &gt;= amount</code>. Different databases, one idea — say exactly that in an interview.</div>
+
+    <h3>Looking ahead: single-table design</h3>
+    <p>Every table so far — Orders, Products, Inventory, Carts, Wallets — has been separate. At real scale, DynamoDB teams often go one step further and combine <i>related</i> entities into <b>one physical table</b>, so one query can fetch a customer's profile and their recent orders together. That's exactly what the capstone below builds.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.9 DECISION GUIDE -->
+  <!-- ============================================================ -->
+  <div class="decide" id="sb-decide">
+    <h3 style="margin-top:0">10.9 · Enhanced Client vs Low-Level Client — the playbook ShopSwift settled on</h3>
+    <table>
+      <tr><th>Situation</th><th>Use</th><th>Why</th></tr>
+      <tr><td>Standard CRUD on a well-defined entity</td><td>DynamoDbEnhancedClient</td><td>Typed Java objects via <code>@DynamoDbBean</code> — no manual attribute-map conversion</td></tr>
+      <tr><td>Query/Scan with conditions, GSIs</td><td>DynamoDbEnhancedClient</td><td><code>QueryConditional</code> + <code>table.index(...)</code> cover almost every real query shape</td></tr>
+      <tr><td>Transactions across tables</td><td>DynamoDbEnhancedClient</td><td><code>transactWriteItems</code> works directly with typed beans</td></tr>
+      <tr><td>Very dynamic / schemaless attributes</td><td>Low-level DynamoDbClient</td><td>Raw <code>AttributeValue</code> maps give full control when a fixed Java class doesn't fit</td></tr>
+      <tr><td>Fine-grained control over request/response shape (custom pagination tokens, exotic expressions)</td><td>Low-level DynamoDbClient</td><td>The Enhanced Client hides some request details you may occasionally need</td></tr>
+      <tr><td>90% of a typical service's data access</td><td>DynamoDbEnhancedClient</td><td>Less code, type-safe, easier to test</td></tr>
+    </table>
+    <p style="margin-top:10px;margin-bottom:0"><b>Rule of thumb:</b> default to the Enhanced Client, exactly like defaulting to MongoRepository in the Mongo guide. Drop to the low-level client only when a specific request shape genuinely requires it.</p>
+    <p style="margin-bottom:0;margin-top:8px"><b>Note on Spring Data DynamoDB:</b> unlike MongoDB, there is no official Spring Data DynamoDB module maintained by the Spring or AWS teams — the community project that exists is not production-recommended by AWS. The Enhanced Client wrapped in your own <code>@Repository</code> classes (as shown throughout this section) is the approach AWS itself documents and most real teams use.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.10 WAR STORIES -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-pitfalls">
+    <div class="fh"><span class="fnum">10.10</span><h3>War stories — mistakes ShopSwift actually made</h3></div>
+    <div class="storychip">📖 Looking back</div>
+    <div class="grid2">
+      <div class="card red"><h4>Overselling the last unit</h4><p>Before the conditional write in 10.5, two customers could both "buy" the last Wireless Earbuds in the same millisecond — stock went to -1. Fixed with <code>conditionExpression("stock &gt;= :qty")</code>.</p></div>
+      <div class="card red"><h4>Scan in an admin report</h4><p>An internal report used <code>table.scan()</code> to count today's orders — cheap in dev, brutally expensive once the table hit tens of millions of items. Fixed with a GSI on <code>orderDate</code>.</p></div>
+      <div class="card red"><h4>GSI throttling the base table</h4><p>The <code>status-index</code> GSI was under-provisioned; once it throttled, writes to the base <code>Orders</code> table started failing too — a surprising, indirect failure mode worth knowing before it happens to you.</p></div>
+      <div class="card red"><h4>Forgetting BatchWriteItem's partial failures</h4><p>Early bulk price-update code assumed all 25 items in a batch always succeeded — a few silently failed under load and were never retried, until someone noticed stale prices weeks later.</p></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 10.11 CAPSTONE: SINGLE-TABLE E-COMMERCE DESIGN -->
+  <!-- ============================================================ -->
+  <div class="feat" id="sb-capstone" style="border-color:var(--green);border-width:2px">
+    <div class="fh"><span class="fnum" style="background:var(--green)">10.11</span><h3>Capstone — ShopSwift's single-table design, end to end</h3></div>
+    <div class="storychip">📖 Month 9 · Putting everything together, the DynamoDB way</div>
+
+    <div class="problem">
+      <span class="lbl">🔴 The incident</span>
+      <p>The "My Account" screen — Meera's profile, her recent orders, each order's payment status, together on one page — is built the obvious way: three tables (<code>Customers</code>, <code>Orders</code>, <code>Payments</code>), three separate queries per page load. It works, but on slow mobile connections the page visibly loads in three stages, and occasionally one of the three calls fails, showing a half-empty account page.</p>
+      <div class="why"><b>Why this happens:</b> three tables means three round trips that can't be combined — DynamoDB has no JOIN. Each trip adds latency and its own chance of failure. The data isn't wrong; it's just spread across three places when the screen always wants it together.</div>
+    </div>
+    <div class="solution">
+      <span class="lbl">💡 The DynamoDB-native answer: single-table design, step by step</span>
+      <ol>
+        <li><b>Use one table with deliberately generic key names</b> — <code>PK</code> and <code>SK</code> — instead of entity-specific ones.</li>
+        <li><b>Give related entities the SAME partition key.</b> Meera's profile AND all her orders share <code>PK = CUSTOMER#901</code>, distinguished by their <code>SK</code> prefix (<code>PROFILE</code>, <code>ORDER#...</code>).</li>
+        <li><b>Now one Query fetches her whole world</b> — profile and every order together, in one round trip, sorted by SK.</li>
+        <li><b>Entities looked up a different way get a different PK pattern</b> — payments are fetched by orderId, so they live under <code>PK = ORDER#...</code> in the same table.</li>
+      </ol>
+    </div>
+
+    <div class="preview">
+      <span class="lbl">📄 One table, three entity types, one customer's world in one Query</span>
+      <div class="doc-window">
+        <div class="doc-titlebar"><span class="dot" style="background:#e05555"></span><span class="dot" style="background:#e0b155"></span><span class="dot" style="background:#55c47a"></span>&nbsp;ShopSwift_Main — items sharing PK = CUSTOMER#901</div>
+<pre><span class="k">PK</span>              <span class="k">SK</span>                    <span class="c">// item type, revealed by the SK prefix</span>
+CUSTOMER#901    PROFILE               <span class="c">// { name: "Meera Rao", email: "...", tier: "GOLD" }</span>
+CUSTOMER#901    ORDER#2026-07-06T13:00 <span class="c">// { orderId, productId, qty, total, status }</span>
+CUSTOMER#901    ORDER#2026-07-01T09:12 <span class="c">// an earlier order</span>
+ORDER#77213     PAYMENT               <span class="c">// { transactionId, method, status } — keyed by orderId, not customerId</span></pre>
+      </div>
+      <p style="margin-top:10px;margin-bottom:0">One <code>Query where PK = "CUSTOMER#901"</code> returns the profile AND every order, in one call, sorted by <code>SK</code>. The three-stage page load became one instant load.</p>
+    </div>
+
+    <h3 style="margin-top:8px">Step 1 — One item class for many entity types</h3>
+<pre><span class="c">// AccountItem.java — a generic item that can BE a profile, an order, or a payment</span>
+@DynamoDbBean
+public class AccountItem {
+    private String pk;
+    private String sk;
+    private String entityType;     <span class="c">// "PROFILE" | "ORDER" | "PAYMENT" — tells the app how to read the rest</span>
+    private Map&lt;String, String&gt; attributes;   <span class="c">// the entity-specific fields</span>
+
+    @DynamoDbPartitionKey
+    public String getPk() { return pk; }
+
+    @DynamoDbSortKey
+    public String getSk() { return sk; }
+
+    <span class="c">// ...getters/setters</span>
+}</pre>
+
+    <h3>Step 2 — Repository: one class, three kinds of query</h3>
+<pre><span class="c">// AccountRepository.java</span>
+@Repository
+public class AccountRepository {
+    private final DynamoDbTable&lt;AccountItem&gt; table;
+
+    <span class="c">// The whole point: profile + all orders, ONE query</span>
+    public List&lt;AccountItem&gt; getCustomerWorld(String customerId) {
+        QueryConditional query = QueryConditional.keyEqualTo(
+            Key.builder().partitionValue(<span class="s">"CUSTOMER#"</span> + customerId).build());
+        return table.query(r -&gt; r.queryConditional(query))
+                     .items().stream().toList();
+    }
+
+    public void saveProfile(String customerId, CustomerProfile profile) {
+        table.putItem(AccountItem.of(<span class="s">"CUSTOMER#"</span> + customerId, <span class="s">"PROFILE"</span>, profile));
+    }
+
+    public void saveOrder(String customerId, Order order) {
+        String sk = <span class="s">"ORDER#"</span> + order.getOrderTime();
+        table.putItem(AccountItem.of(<span class="s">"CUSTOMER#"</span> + customerId, sk, order));
+    }
+
+    public AccountItem getPayment(String orderId) {
+        return table.getItem(Key.builder()
+            .partitionValue(<span class="s">"ORDER#"</span> + orderId).sortValue(<span class="s">"PAYMENT"</span>).build());
+    }
+}</pre>
+
+    <div class="tagrow"><span class="tag-repo">DynamoDbEnhancedClient</span></div>
+
+    <div class="walk">
+      <span class="lbl">🔍 What's actually happening here</span>
+      <ol>
+        <li><b>getCustomerWorld</b> is the entire payoff — it directly fixes the three-stage page load with a single <code>Query</code>, because profile and orders share the same <code>PK</code>.</li>
+        <li><b>entityType</b> tells the service layer how to interpret each returned item — the app branches on it to rebuild a real <code>CustomerProfile</code> or <code>Order</code> object.</li>
+        <li><b>saveOrder</b> uses <code>SK = "ORDER#" + orderTime</code> — orders naturally sort chronologically under the profile, reusing 10.2's sort-key idea.</li>
+        <li><b>getPayment</b> deliberately uses a <i>different</i> <code>PK</code> pattern (<code>ORDER#...</code>) — payments are looked up by orderId, so they get their own partition in the same physical table.</li>
+      </ol>
+    </div>
+
+    <h3>Step 3 — Controller (the actual REST API)</h3>
+<pre><span class="c">// AccountController.java</span>
+@RestController
+@RequestMapping(<span class="s">"/api/v1/account"</span>)
+public class AccountController {
+    private final AccountRepository accountRepository;
+    private final PaymentService paymentService;         <span class="c">// from 10.8 — transactWriteItems</span>
+    private final InventoryService inventoryService;     <span class="c">// from 10.5 — write-sharded stock</span>
+
+    @GetMapping(<span class="s">"/{customerId}"</span>)
+    public AccountSummary getAccount(@PathVariable String customerId) {
+        return AccountSummary.from(accountRepository.getCustomerWorld(customerId));   <span class="c">// "My Account" screen</span>
+    }
+
+    @PostMapping(<span class="s">"/{customerId}/orders"</span>)
+    public ResponseEntity&lt;Order&gt; placeOrder(@PathVariable String customerId,
+                                             @RequestBody @Valid OrderRequest request) {
+        boolean reserved = inventoryService.decrementStock(request.productId(), request.quantity());
+        if (!reserved) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();   <span class="c">// out of stock — 10.5's conditional write</span>
+        }
+        Order order = request.toOrder(customerId);
+        paymentService.placeOrderWithPayment(customerId, order, order.getTotal());  <span class="c">// 10.8 — transaction</span>
+        accountRepository.saveOrder(customerId, order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
+    }
+
+    @GetMapping(<span class="s">"/orders/{orderId}/payment"</span>)
+    public AccountItem getPaymentStatus(@PathVariable String orderId) {
+        return accountRepository.getPayment(orderId);
+    }
+}</pre>
+
+    <h3>Step 4 — Configuration for scale (bringing 10.1 and 10.3 together)</h3>
+<pre><span class="c">// DynamoDbConfig.java — same beans from 10.1, now serving the whole capstone</span>
+@Configuration
+public class DynamoDbConfig {
+    @Bean
+    public DynamoDbClient dynamoDbClient() {
+        return DynamoDbClient.builder()
+            .region(Region.AP_SOUTH_1)
+            .overrideConfiguration(c -&gt; c.retryStrategy(RetryMode.STANDARD))  <span class="c">// auto-retries throttled requests</span>
+            .build();
+    }
+
+    @Bean
+    public DynamoDbEnhancedClient enhancedClient(DynamoDbClient client) {
+        return DynamoDbEnhancedClient.builder().dynamoDbClient(client).build();
+    }
+}</pre>
+
+    <div class="grid2">
+      <div class="card green"><h4>Horizontal scale</h4><p>Every service above is stateless — ShopSwift runs many identical app instances behind a load balancer; DynamoDB itself never needs the app to "know" how many partitions exist.</p></div>
+      <div class="card green"><h4>One query, one round trip</h4><p>The screen customers open the most — their account — reads as ONE query against ONE partition, not three calls across three tables. Nothing half-loads anymore.</p></div>
+      <div class="card green"><h4>Every earlier fix, still working</h4><p>Write-sharded inventory (10.5), conditional stock checks (10.5/10.10), transactions (10.8), and GSIs (10.6) all plug directly into this same table design without contradiction.</p></div>
+      <div class="card green"><h4>Honest trade-off</h4><p>Single-table design is powerful but has a real cost: the table is harder to read directly in the AWS console, and every access pattern must be known upfront — exactly Section 1's original warning about DynamoDB, now fully paid off.</p></div>
+    </div>
+    <p style="margin-bottom:0"><b>The one sentence that ties this whole guide together:</b> every chapter from 10.1 to 10.10 wasn't a separate trick — it was one real production incident at a time, each fixed with one deliberate decision, and this single-table Account API is simply all of those decisions, still standing, working together.</p>
+  </div>
+
+</div></section>
+
+
+</div> <!-- /panelSpringboot -->
+
 <footer><div class="wrap">
-  Sources: AWS USENIX ATC '22 DynamoDB paper · Amazon Science blog · AWS customer case studies (Zoom, Snap, Duolingo, Disney+, Lyft). Demo hash (FNV-1a) is illustrative only.
+  Sources: AWS USENIX ATC '22 DynamoDB paper · Amazon Science blog · AWS customer case studies (Zoom, Snap, Duolingo, Disney+, Lyft) · AWS SDK for Java v2 / Spring Boot documentation. Demo hash (FNV-1a) is illustrative only.
 </div></footer>
 
 <script>
+function showTab(tab){
+  const panelConcepts = document.getElementById('panelConcepts');
+  const panelSpring = document.getElementById('panelSpringboot');
+  const btnConcepts = document.getElementById('btnConcepts');
+  const btnSpring = document.getElementById('btnSpring');
+
+  if (tab === 'concepts'){
+    panelConcepts.classList.add('active');
+    panelSpring.classList.remove('active');
+    btnConcepts.classList.add('active');
+    btnSpring.classList.remove('active');
+  } else {
+    panelSpring.classList.add('active');
+    panelConcepts.classList.remove('active');
+    btnSpring.classList.add('active');
+    btnConcepts.classList.remove('active');
+  }
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
 (function(){
   const N = 4;
   const ranges = ['0000–3FFF','4000–7FFF','8000–BFFF','C000–FFFF'];
